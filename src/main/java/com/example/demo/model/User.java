@@ -20,10 +20,10 @@ public class User {
 	private String lastName;
 	
 	@Column(nullable=false, updatable=false)
-	private LocalDateTime creationTimeStamp;
+	private LocalDateTime creationTimestamp;
 	
 	@Column(nullable=false)
-	private LocalDateTime lastUpdateTimeStamp;
+	private LocalDateTime lastUpdateTimestamp;
 	
 	@OneToMany(mappedBy="owner", cascade=CascadeType.REMOVE)	//fetch type is LAZY by default
 	private List<Project> ownedProjects;
@@ -36,13 +36,13 @@ public class User {
 	
 	@PrePersist
 	protected void onPersist() {
-		this.creationTimeStamp = LocalDateTime.now();
-		this.lastUpdateTimeStamp = this.creationTimeStamp;
+		this.creationTimestamp = LocalDateTime.now();
+		this.lastUpdateTimestamp = this.creationTimestamp;
 	}
 	
 	@PreUpdate
 	protected void onUpdate() {
-		this.lastUpdateTimeStamp = LocalDateTime.now();
+		this.lastUpdateTimestamp = LocalDateTime.now();
 	}
 	
 	public User() {
@@ -80,20 +80,20 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public LocalDateTime getCreationTimeStamp() {
-		return creationTimeStamp;
+	public LocalDateTime getCreationTimestamp() {
+		return creationTimestamp;
 	}
 
-	public void setCreationTimeStamp(LocalDateTime creationTimeStamp) {
-		this.creationTimeStamp = creationTimeStamp;
+	public void setCreationTimestamp(LocalDateTime creationTimestamp) {
+		this.creationTimestamp = creationTimestamp;
 	}
 
-	public LocalDateTime getLastUpdateTimeStamp() {
-		return lastUpdateTimeStamp;
+	public LocalDateTime getLastUpdateTimestamp() {
+		return lastUpdateTimestamp;
 	}
 
-	public void setLastUpdateTimeStamp(LocalDateTime lastUpdateTimeStamp) {
-		this.lastUpdateTimeStamp = lastUpdateTimeStamp;
+	public void setLastUpdateTimestamp(LocalDateTime lastUpdateTimestamp) {
+		this.lastUpdateTimestamp = lastUpdateTimestamp;
 	}
 
 	public List<Project> getOwnedProjects() {
@@ -121,10 +121,10 @@ public class User {
 		builder.append(firstName);
 		builder.append(", lastName=");
 		builder.append(lastName);
-		builder.append(", creationTimeStamp=");
-		builder.append(creationTimeStamp);
-		builder.append(", lastUpdateTimeStamp=");
-		builder.append(lastUpdateTimeStamp);
+		builder.append(", creationTimestamp=");
+		builder.append(creationTimestamp);
+		builder.append(", lastUpdateTimestamp=");
+		builder.append(lastUpdateTimestamp);
 		builder.append(", ownedProjects=");
 		builder.append(ownedProjects);
 		builder.append(", visibleProjects=");
@@ -137,10 +137,10 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((creationTimeStamp == null) ? 0 : creationTimeStamp.hashCode());
+		result = prime * result + ((creationTimestamp == null) ? 0 : creationTimestamp.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((lastUpdateTimeStamp == null) ? 0 : lastUpdateTimeStamp.hashCode());
+		result = prime * result + ((lastUpdateTimestamp == null) ? 0 : lastUpdateTimestamp.hashCode());
 		return result;
 	}
 
@@ -153,10 +153,10 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (creationTimeStamp == null) {
-			if (other.creationTimeStamp != null)
+		if (creationTimestamp == null) {
+			if (other.creationTimestamp != null)
 				return false;
-		} else if (!creationTimeStamp.equals(other.creationTimeStamp))
+		} else if (!creationTimestamp.equals(other.creationTimestamp))
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
@@ -168,10 +168,10 @@ public class User {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (lastUpdateTimeStamp == null) {
-			if (other.lastUpdateTimeStamp != null)
+		if (lastUpdateTimestamp == null) {
+			if (other.lastUpdateTimestamp != null)
 				return false;
-		} else if (!lastUpdateTimeStamp.equals(other.lastUpdateTimeStamp))
+		} else if (!lastUpdateTimestamp.equals(other.lastUpdateTimestamp))
 			return false;
 		return true;
 	}
