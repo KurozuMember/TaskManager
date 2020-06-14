@@ -8,11 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.Task;
 import com.example.demo.repository.TaskRepository;
+import com.example.demo.model.Project;
 
 @Service
 public class TaskService {
 	@Autowired
 	private TaskRepository taskrepository;
+	@Autowired
+	private ProjectService projectService;
 	@Transactional
 	public Task getTask(long id ) {
 		Optional<Task> result= this.taskrepository.findById(id);
@@ -30,5 +33,11 @@ public class TaskService {
 	public Task setCompletedTask(Task task) {
 		task.setCompleted(true);
 		return this.taskrepository.save(task);
+	}
+	
+	public Task addTaskToProject(Project project, Task task) {
+		project.addTask(task);
+		this.projectService.saveProject(project);
+		return task;
 	}
 }

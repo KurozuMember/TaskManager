@@ -13,12 +13,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Credentials")
 public class Credentials {
-	public static final String DEFAULT_ROLE="DEFAULT";
-	public static final String ADMIN_ROLE="ADMIN";
+	public static final String DEFAULT_ROLE ="DEFAULT";
+	public static final String ADMIN_ROLE ="ADMIN";
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
+	@Column(nullable=false, length=100)
+	private String userName;
+	
+	@Column(nullable=false, length=100)
+	private String password;
+	
+	@OneToOne(cascade= {CascadeType.ALL},fetch=FetchType.EAGER)
+	private User user;
+	@Column(nullable=false, length=100)
+	private String role;
+
+	public Credentials() {
+		
+	}
+	public Credentials(String userName, String password) {
+		this.userName=userName;
+		this.password=password;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -55,25 +74,7 @@ public class Credentials {
 	public static String getAdminRole() {
 		return ADMIN_ROLE;
 	}
-	@Column(nullable=false, length=100)
-	private String userName;
 	
-	@Column(nullable=false, length=100)
-	private String password;
-	
-	@OneToOne(cascade= {CascadeType.ALL},fetch=FetchType.EAGER)
-	private User user;
-	@Column(nullable=false, length=100)
-	private String role;
-
-	public Credentials() {
-		
-	}
-	public Credentials(String userName, String password) {
-		
-		this.userName=userName;
-		this.password=password;
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
