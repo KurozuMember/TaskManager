@@ -51,6 +51,10 @@ public class Project {
 		this.tags.add(tag);
 	}
 
+	@PrePersist
+	protected void onPersist() {
+		this.projectStartDate = LocalDateTime.now();
+	}
 	public Project() {
 		this.members = new ArrayList<>();
 		this.tasks = new ArrayList<>();
@@ -60,6 +64,11 @@ public class Project {
 	public Project(String name) {
 		this();
 		this.name = name;
+	}
+
+	public Project(String name, String description) {
+		this.name = name;
+		this.description = description;
 	}
 
 	public Long getId() {
