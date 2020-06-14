@@ -34,10 +34,7 @@ public class Project {
 
 	@OneToMany
 	private List<Tag> tags;
-	@PrePersist
-	protected void onPersist() {
-		this.projectStartDate=LocalDateTime.now();
-	}
+	
 
 	public void addMember(User u) {
 		this.members.add(u);
