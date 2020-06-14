@@ -17,11 +17,11 @@ public class UserValidator  implements Validator{
 		User user = (User)o;
 		String firstname=user.getFirstName().trim();
 		String lastname= user.getLastName().trim();
-		if(firstname.isBlank())
+		if(firstname.trim().isEmpty())
 			errors.rejectValue("firstName", "required");
 		else if(firstname.length()<MIN_NAME_LENGT||firstname.length()>MAX_NAME_LENGTH)
 			errors.rejectValue("firstName","size");
-		if(lastname.isBlank())
+		if(lastname.trim().isEmpty())
 			errors.rejectValue("lastName", "required");
 		else if(lastname.length()<MIN_NAME_LENGT||lastname.length()>MAX_NAME_LENGTH)
 			errors.rejectValue("lastName","size");

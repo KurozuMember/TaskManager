@@ -29,7 +29,7 @@ public class CredentialsValidator implements Validator {
 
 		String password=credentials.getPassword();
 
-		if(username.isBlank()) {
+		if(username.trim().isEmpty()) {
 			errors.rejectValue("userName","required");
 
 		}
@@ -41,7 +41,7 @@ public class CredentialsValidator implements Validator {
 			errors.rejectValue("userName", "duplicate");
 
 		}
-		if(password.isBlank()) {
+		if(password.trim().isEmpty()) {
 			errors.rejectValue("password","required");
 
 		}
@@ -58,7 +58,7 @@ public class CredentialsValidator implements Validator {
 
 		String password=credentials.getPassword();
 
-		if(username.isBlank()) {
+		if(username.trim().isEmpty()) {
 			errors.rejectValue("userName","required");
 
 		}
@@ -67,7 +67,7 @@ public class CredentialsValidator implements Validator {
 
 		}
 
-		if ((password.length()<MIN_PASSWORD_LENGTH||password.length()>MAX_PASSWORD_LENGTH)&&(!password.isBlank())) {
+		if ((password.length()<MIN_PASSWORD_LENGTH||password.length()>MAX_PASSWORD_LENGTH)&&(!password.trim().isEmpty())) {
 			errors.rejectValue("password","size");
 
 		}
