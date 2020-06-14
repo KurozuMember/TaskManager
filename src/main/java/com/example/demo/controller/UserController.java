@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.demo.controller.session.SessionData;
+import com.example.demo.controller.validation.CredentialsValidator;
+import com.example.demo.controller.validation.UserValidator;
 import com.example.demo.model.Credentials;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
