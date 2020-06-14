@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.model.Project;
 import com.example.demo.model.User;
 import com.example.demo.repository.CredentialRepository;
 import com.example.demo.repository.UserRepository;
@@ -23,6 +24,11 @@ public class UserService {
 		Optional<User> result=this.userRepository.findById(id);
 		return result.orElse(null);
 	}
+	/*@Transactional
+	public User getUser(String username) {
+		Optional<User> result=this.credentialRepository.findByUsername(username);
+		return result.orElse(null);
+	}*/
 	@Transactional
 	public User saveUser(User user) {
 		return this.userRepository.save(user);
@@ -39,5 +45,8 @@ public class UserService {
 			users.add(u);
 		}
 		return users;
+	}
+	public List<User> getMembers(Project project) {
+		return this.userRepository.findByVisibleProjects(project);
 	}
 }
