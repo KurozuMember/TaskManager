@@ -9,17 +9,18 @@
 	<h1 th:text="${project.name}"></h1>
 	<h4 th:text="${project.description}" style="color:gray"></h4>
 
-	<div th:if="${members.size() >0">
+	<div>
 		<h3>Shared with:</h3>
 		<ul>
-			<li th:each="member : ${members}">
+			<li th:each="member: ${members}">
 				<div th:text="${member.firstName}+ ' ' + ${member.lastName}"></div>
 			</li>
 		</ul>
 	</div>
+	
 	<h3>Tasks</h3>
 	<ul>
-		<li th:each="task : ${project.tasks}">
+		<li th:each="task: ${project.tasks}">
 			<div th:text="${task.name}"></div>
 			<div th:text="${task.description}" style=""></div>
 		</li>
