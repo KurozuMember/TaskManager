@@ -123,7 +123,7 @@ public class UserController {
 		// validate user and credentials field
 		this.userValidator.validate(user, userBindingResult);
 		this.credentialsValidator.validateM(credentials, credentialsBindingResult);
-		if(!credentials.getPassword().isBlank()&&!credentials.getPassword().equals(null)) {
+		if(!credentials.getPassword().trim().isEmpty()&&!credentials.getPassword().equals(null)) {
 			System.out.println(credentials.getPassword());
 			cr.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
 		}
