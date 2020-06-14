@@ -45,18 +45,19 @@ public class ProjectController {
 		return "MyOwnedProjects";
 	}
 
-	@RequestMapping(value = { "/projects/{projectId}" }, method = RequestMethod.GET) //L'URL che cattura la richiesta è parametrico: indichiamo il campo
-	//parametrico con parentesi graffe
-	public String project(Model model, @PathVariable Long projectId) {  //annotiamo con @PathVariable l'oggetto parametrico che ha lo stesso nome dato nell'URL
+	//L'URL che cattura la richiesta è parametrico: indichiamo il campo parametrico con parentesi graffe
+	@RequestMapping(value = { "/projects/{projectId}" }, method = RequestMethod.GET)
+	public String project(Model model, @PathVariable Long projectId) { 	//annotiamo con @PathVariable l'oggetto parametrico che ha lo stesso nome dato nell'URL
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
 		List<User> members = userService.getMembers(project);
-		if (project == null)  //se il progetto non è presente nel DB
+		//se il progetto non è presente nel DB
+		if (project == null)  
 			return "redirect:/projects";
 
-
-		if(!project.getOwner().equals(loggedUser) && !members.contains(loggedUser))    //se l'utente loggato non risulta il proprietario e non è nella lista dei membri
-			return "redirect:/projects";                                               //possiamo fare getOwner perché l'associazione con lo User è EAGER 
+		//se l'utente loggato non risulta il proprietario e non è nella lista dei membri
+		if(!project.getOwner().equals(loggedUser) && !members.contains(loggedUser))		//possiamo fare getOwner perché l'associazione con lo User è EAGER
+			return "redirect:/projects";              
 
 		model.addAttribute("project", project);
 		model.addAttribute("loggedUser", loggedUser);
@@ -79,14 +80,13 @@ public class ProjectController {
 		projectValidator.validate(project, projectBindingResult);
 		if (!projectBindingResult.hasErrors()) {
 			project.setOwner(loggedUser);
-		this.projectService.saveProject(project);
-		return "redirect:/projects/" + project.getId();
+			this.projectService.saveProject(project);
+			return "redirect:/projects/" + project.getId();
 		}
 		model.addAttribute("loggedUser", loggedUser);
 		return "addProject";
-
 	}
-	
+
 	@RequestMapping(value = {"/visibleProjects"}, method = RequestMethod.GET)
 	public String myVisibleProjects(Model model) {
 		User loggedUser = sessionData.getLoggedUser();
