@@ -119,23 +119,51 @@ public class UserController {
 			@Valid @ModelAttribute("credentialsForm") Credentials credentials,
 			BindingResult credentialsBindingResult,
 			Model model) {
+		/*Credenziali corrette : ricordo che logged credentials ha il campo password non corretto , ma quello fake per 
+		 * le richieste get ("[PROTECTED]").
+		 * Per ottenere quello corretto usiamo credentialsService.*/
 		Credentials cr= credentialService.getCredential(sessionData.getLoggedCredentials().getId());
-		// validate user and credentials field
+		// validiamo le info user usando validate .
 		this.userValidator.validate(user, userBindingResult);
+		/* validiamo le credenziali usando un nuovo metodo validateM(dove M sta per modifica) molto simile a validate
+		 * ma senza alcuni check come isEmpty() in quanto un utente può anche non voler cambiare la password per esempio.*/ 
+		
 		this.credentialsValidator.validateM(credentials, credentialsBindingResult);
+		/* Una volta che anche le credenziali sono state  convalidate controllo se il campo password ottenuto dal form 
+		 * sia compilato o meno  :
+		 * 1) se è compilato ( è stato anceh  convalidato quindi  ha i numeri di carattere giusti )
+		 * 	  vuol dire che l'utente vuole cambiare la sua password).
+		 *    Quindi nelle credential corrette create sopra inseriamo la nuova password usando l'encoder.
+		 *    NOTA: sono stati aggiunti metodi getter e setter per username e password in Credentials.
+		 * 2) In caso sia vuoto invece si salta la if .
+		 *    NOTA: si noti che nel campo password delle credentiali corrette cr "create" sopra ci sta la password criptata.
+		 *          Quindi al momento del salvataggio è stato creato un nuovo metodo (updateCredentials) in credentialsService
+		 *          per la modifica senza password encoder in quanto campo password già criptato.  */
 		if(!credentials.getPassword().trim().isEmpty()&&!credentials.getPassword().equals(null)) {
-			System.out.println(credentials.getPassword());
+			
 			cr.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
 		}
+		/*Settiamo lo username delle credentials corrette.
+		 * 1)se l' utente ha cambiato lo username , questo verrà modificato 
+		 * 2)se l'utente non lo ha cambiato , nel campo credentials.userName ci sta ancora il suo username immutato.
+		 *   lo sovrascriviamo anche se è lo stesso.
+		 *   NOTA: se campo username del form è vuoto la validateM sopra non convalida , quindi non si hanno problemi in questo punto.*/
+		
+		
 		cr.setUserName(credentials.getUserName());
 		// if neither of them had invalid contents, store the User and the Credentials into the DB
 		if(!userBindingResult.hasErrors()&&!credentialsBindingResult.hasErrors()) {
 			// set the user and store the credentials;
 			// this also stores the User, thanks to Cascade.ALL policy
-
+			/*NOTA: quì dobbiamo assegnare allo user creato dalla form l'id dello user loggato per poter fare 
+			 *      l'update sul db.*/
 			user.setId(this.sessionData.getLoggedUser().getId());
-			this.userService.saveUser(user);
+			/*Salviamo credentials(usando nuovo metodo e passando cr che sono le credenziali corrette)
+			 * NOTA: crazie a CASCADE.ALL salva anche lo user.*/
+			cr.setUser(user);
 			this.credentialService.updateCredential(cr);
+			/*Dopo aver salvato sostituiamo il campo password di cr con [PROTECTED]
+			 * e aggiorniamo i dati di sessione.*/
 			cr.setPassword("[PROTECTED]");
 			this.sessionData.setLoggedUser(user);
 			this.sessionData.setCredentials(cr);
