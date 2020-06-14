@@ -59,6 +59,7 @@ public class CredentialsValidator implements Validator {
 		String password=credentials.getPassword();
 
 		if(username.trim().isEmpty()) {
+			System.out.println("ciao");
 			errors.rejectValue("userName","required");
 
 		}
