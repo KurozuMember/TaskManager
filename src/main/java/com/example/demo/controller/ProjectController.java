@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.demo.controller.session.SessionData;
+import com.example.demo.controller.validation.CredentialsValidator;
 import com.example.demo.controller.validation.ProjectValidator;
+import com.example.demo.model.Credentials;
 import com.example.demo.model.Project;
 import com.example.demo.model.User;
+import com.example.demo.services.CredentialService;
 import com.example.demo.services.ProjectService;
 import com.example.demo.services.UserService;
 
@@ -34,6 +37,9 @@ public class ProjectController {
 
 	@Autowired 
 	ProjectValidator projectValidator;
+
+	@Autowired
+	CredentialService credentialsService;
 
 
 	@RequestMapping(value = {"/projects"}, method = RequestMethod.GET)
@@ -81,7 +87,7 @@ public class ProjectController {
 			this.projectService.saveProject(project);
 			System.out.println(project.getId());
 			return "redirect:/projects/" + project.getId();
-			
+
 		}
 		model.addAttribute("loggedUser", loggedUser);
 		return "addProject";
@@ -94,5 +100,65 @@ public class ProjectController {
 		model.addAttribute("user", loggedUser);
 		model.addAttribute("projectList", projectList);
 		return "MyVisibleProjects";
+	}
+
+	//il metodo cattura la richiesta della modifica del progetto e predispone una form di modifica
+	@RequestMapping(value= { "/projects/update/{projectId}" }, method = RequestMethod.GET)
+	public String projectForm(Model model, @PathVariable Long projectId) {
+		Project project = projectService.getProject(projectId);
+		model.addAttribute("projectForm", project);
+		return "projectUpdate";
+	}
+
+	@RequestMapping(value = { "/projects/update/{projectId}" }, method = RequestMethod.POST)
+	public String updateProject(@Valid @ModelAttribute("projectForm") Project projectForm, @PathVariable Long projectId,
+			BindingResult projectBindingResult, Model model) {
+		projectValidator.validate(projectForm, projectBindingResult);
+		if (!projectBindingResult.hasErrors()) {
+
+			Project project = this.projectService.getProject(projectId);
+			project.setDescription(projectForm.getDescription());
+			project.setName(projectForm.getName());
+			this.projectService.saveProject(project);
+			return "projectUpdateSuccessful";
+		}
+		return "projectUpdate";
+
+	}
+
+	@RequestMapping(value = { "/projects/delete/{projectId}" }, method = RequestMethod.GET)
+	public String confirmDeleteProject(Model model, @PathVariable Long projectId) {
+		Project project = projectService.getProject(projectId);
+		this.projectService.deleteProject(project);
+		return "projectDelete";
+
+	}
+
+	@RequestMapping(value = {"/projects/share/{projectId}" }, method = RequestMethod.GET)
+	public String shareProjectForm(Model model, @PathVariable Long projectId) {
+		Project project = projectService.getProject(projectId);
+		model.addAttribute("projectForm", project);
+		model.addAttribute("credentialsForm", new Credentials());
+		return "shareProject";
+
+	}
+
+	@RequestMapping(value = {"/projects/share/{projectId}"}, method = RequestMethod.POST)
+	public String shareProject(Model model, @Valid @ModelAttribute ("credentialsForm") Credentials credentialsForm, @PathVariable Long projectId) {
+		String userName = credentialsForm.getUserName();
+		Project project = projectService.getProject(projectId);
+		Credentials credentials = this.credentialsService.getCredential(userName);
+
+		if(credentials!=null) {
+
+			User user= credentials.getUser();	
+			this.projectService.shareProjectWithUser(project, user);
+			return "projectSharedSuccessful";
+		}
+		return "shareProject";
+
+
+
+
 	}
 }
