@@ -167,7 +167,7 @@ public class UserController {
 			cr.setPassword("[PROTECTED]");
 			this.sessionData.setLoggedUser(user);
 			this.sessionData.setCredentials(cr);
-			
+
 			
 			return "userUpdateSuccessful";
 		}
