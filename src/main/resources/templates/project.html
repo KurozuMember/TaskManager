@@ -7,7 +7,7 @@
 
 <body>
 	<h1 th:text="${project.name}"></h1>
-	<h4 th:text="${project.description}" style="color:gray"></h4>
+	<h4 th:text="${project.description}" style="color: gray"></h4>
 
 	<div>
 		<h3>Shared with:</h3>
@@ -17,13 +17,24 @@
 			</li>
 		</ul>
 	</div>
-	
+
 	<h3>Tasks</h3>
+	<!--appare solo se non ci sono task-->
+	<div th:if="${project.tasks.size() <= 0}">
+		<h4>No tasks</h4>
+	</div>
+	<!--lista dei task-->
 	<ul>
 		<li th:each="task: ${project.tasks}">
 			<div th:text="${task.name}"></div>
 			<div th:text="${task.description}" style=""></div>
 		</li>
 	</ul>
+	<!--posso aggiungere task solo se sono il proprietario-->
+	<div th:if="${project.owner.equals(loggedUser)}">
+		<h4>
+			<a th:href="addTask">Add task</a>
+		</h4>
+	</div>
 </body>
 </html>

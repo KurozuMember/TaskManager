@@ -14,7 +14,7 @@ import com.example.demo.controller.validation.CredentialsValidator;
 import com.example.demo.controller.validation.UserValidator;
 import com.example.demo.model.Credentials;
 import com.example.demo.model.User;
-import com.example.demo.services.CredentialService;
+import com.example.demo.service.CredentialService;
 
 
 

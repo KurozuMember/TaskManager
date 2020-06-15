@@ -16,7 +16,7 @@ public class Task {
 	@Column(nullable=false, length=100)
 	private String name;
 	
-	@Column
+	@Column(length=1000)
 	private String description;
 	
 	@Column(nullable=false, updatable=false)
@@ -43,6 +43,10 @@ public class Task {
 	@PreUpdate
 	protected void onUpdate() {
 		this.lastUpdateTimestamp = LocalDateTime.now();
+	}
+	
+	public boolean isCompleted() {
+		return this.completed;
 	}
 	
 	public Task() {

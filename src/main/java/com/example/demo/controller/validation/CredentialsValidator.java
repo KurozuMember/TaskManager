@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 
 import com.example.demo.model.Credentials;
 import com.example.demo.model.User;
-import com.example.demo.services.CredentialService;
+import com.example.demo.service.CredentialService;
 
 @Component
 public class CredentialsValidator implements Validator {

@@ -18,8 +18,8 @@ import com.example.demo.controller.validation.UserValidator;
 import com.example.demo.model.Credentials;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.services.CredentialService;
-import com.example.demo.services.UserService;
+import com.example.demo.service.CredentialService;
+import com.example.demo.service.UserService;
 
 /**
  * The UserController handles all interactions involving User data.

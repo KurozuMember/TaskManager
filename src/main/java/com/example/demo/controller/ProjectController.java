@@ -17,8 +17,8 @@ import com.example.demo.controller.session.SessionData;
 import com.example.demo.controller.validation.ProjectValidator;
 import com.example.demo.model.Project;
 import com.example.demo.model.User;
-import com.example.demo.services.ProjectService;
-import com.example.demo.services.UserService;
+import com.example.demo.service.ProjectService;
+import com.example.demo.service.UserService;
 
 @Controller
 public class ProjectController {
