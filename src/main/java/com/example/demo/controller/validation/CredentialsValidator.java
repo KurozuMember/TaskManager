@@ -71,6 +71,20 @@ public class CredentialsValidator implements Validator {
 			errors.rejectValue("password","size");
 
 		}
+
+	}
+
+	public void existsUserNameEntered(Object o, Errors errors) {
+		Credentials credentials = (Credentials)o;
+		String username = credentials.getUserName();
+		if(username.trim().isEmpty()) {
+			errors.rejectValue("userName","required");
+		}
+		else if(this.credentialsService.getCredential(username) == null) {
+			errors.rejectValue("userName", "doesntExist");
+		}
+
+
 	}
 	@Override
 	public boolean supports(Class<?>clazz) {

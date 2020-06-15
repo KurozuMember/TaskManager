@@ -41,6 +41,9 @@ public class ProjectController {
 	@Autowired
 	CredentialService credentialsService;
 
+	@Autowired
+	CredentialsValidator credentialsValidator;
+
 
 	@RequestMapping(value = {"/projects"}, method = RequestMethod.GET)
 	public String myOwnedProjects(Model model) {
@@ -144,18 +147,20 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = {"/projects/share/{projectId}"}, method = RequestMethod.POST)
-	public String shareProject(Model model, @Valid @ModelAttribute ("credentialsForm") Credentials credentialsForm, @PathVariable Long projectId) {
-		String userName = credentialsForm.getUserName();
+	public String shareProject(Model model, @Valid @ModelAttribute ("credentialsForm") Credentials credentialsForm, BindingResult credentialsBindingResult, @PathVariable Long projectId) {
 		Project project = projectService.getProject(projectId);
-		Credentials credentials = this.credentialsService.getCredential(userName);
 
-		if(credentials!=null) {
-
+		credentialsValidator.existsUserNameEntered(credentialsForm, credentialsBindingResult);
+		if(!credentialsBindingResult.hasErrors()) {
+			Credentials credentials = this.credentialsService.getCredential(credentialsForm.getUserName());
 			User user= credentials.getUser();	
 			this.projectService.shareProjectWithUser(project, user);
 			return "projectSharedSuccessful";
 		}
+		model.addAttribute("projectForm", project);
+		model.addAttribute("credentialsForm", credentialsForm);		
 		return "shareProject";
+
 
 
 
