@@ -15,7 +15,7 @@ public class Project {
 	@Column(nullable=false, length=100)
 	private String name;
 
-	@Column
+	@Column(nullable=false)
 	private String description;
 	
 	@Column(nullable=false)
@@ -34,6 +34,7 @@ public class Project {
 
 	@OneToMany
 	private List<Tag> tags;
+	
 
 	public void addMember(User u) {
 		this.members.add(u);
