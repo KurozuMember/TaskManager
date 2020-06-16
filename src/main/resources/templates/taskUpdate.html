@@ -1,39 +1,60 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>TaskManager</title>
+<title>TaskManager</title>
 </head>
 
 <body>
-<h1>Update Task Information</h1>
-<form id = "updateTaskForm"
-      th:action="@{'/projects/' + ${projectId} + '/tasks/update/' + ${taskId}}"
-      method="POST">
+	<h1>Update Task Information</h1>
+	<form id="updateTaskForm"
+		th:action="@{'/projects/' + ${projectId} + '/tasks/update/' + ${taskId}}"
+		th:object="${taskForm}" method="POST">
 
-    <table>
-        <tr>
-            <td><label for="nameInput">Nome</label>
-            <td><input id=nameInput type="text" th:field="${taskForm.name}" placeholder="NAME" required/></td>
-            <td th:if="${#fields.hasErrors('taskForm.name')}" th:errors="${taskForm.name}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
-            <td><label for="descriptionInput">Descrizione</label></td>
-            <td><input id="descriptionInput" type="text" th:field="${taskForm.description}" placeholder="DESCRIPTION"/></td>
-            <td th:if="${#fields.hasErrors('taskForm.description')}" th:errors="${taskForm.description}" th:style="'color:red'"></td>
-        </tr>
-        <tr>
-            <td><label for="completedInput">Completato </label></td>
-            <td><input id="completedInput" type="checkbox" name="completato"/></td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit">Conferma modifiche</button>
-            </td>
-        </tr>
-    </table>
-</form>
+		<table>
+			<tr>
+				<td><label for="nameInput">Nome</label>
+				<td><input id=nameInput type="text" th:field="*{name}"
+					placeholder="NAME" required /></td>
+				<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+					th:style="'color:red'"></td>
+			</tr>
+			<tr>
+				<td><label for="descriptionInput">Descrizione</label></td>
+				<td><input id="descriptionInput" type="text"
+					th:field="*{description}" placeholder="DESCRIPTION" /></td>
+				<td th:if="${#fields.hasErrors('description')}"
+					th:errors="*{description}" th:style="'color:red'"></td>
+			</tr>
+			<!-- <tr th:each="tag : ${projectForm.getTags()}">
+        	<td><label for="tagsInput" th:text="${tag.name}" th:style="'color:${tag.color}'"></label></td>
+        	<td><input id="tagsInput" type="checkbox" th:field="*{tags}" th:value="${tag}"/></td>
+ 		</tr> -->
+ 		
+			<tr th:each="tag : ${projectForm.getTags()}">
+				<td>
+				<label for="tagsInput" th:text="${tag.name}" th:style="'color:${tag.color}'"></label></td>
+				<td>
+				<input id="tagsInput" type="checkbox" th:name="tagsId" th:value="${tag.id}" /></td>
+			</tr>
+
+			<tr>
+				<td><label for="completedInput">Completato</label></td>
+				<td><input id="completedInput" type="checkbox"
+					th:field="*{completed}" name="completato" /></td>
+			</tr>
+		</table>
+
+		<!-- <label>Seleziona i tag</label>
+		<div>
+			<select name="tags" multiple="multiple">
+				<option th:each="tag : ${projectForm.getTags()}" th:value="${tag}">un
+					tag</option>
+			</select>
+		</div> -->
+
+		<button type="submit">Conferma modifiche</button>
+	</form>
 
 </body>
 </html>

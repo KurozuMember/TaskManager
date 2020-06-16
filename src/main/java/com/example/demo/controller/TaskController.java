@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.controller.session.SessionData;
 import com.example.demo.controller.validation.CredentialsValidator;
 import com.example.demo.controller.validation.TaskValidator;
 import com.example.demo.model.Credentials;
 import com.example.demo.model.Project;
+import com.example.demo.model.Tag;
 import com.example.demo.model.Task;
 import com.example.demo.model.User;
 import com.example.demo.services.CredentialService;
@@ -98,13 +101,15 @@ public class TaskController {
 		if(!project.getOwner().equals(sessionData.getLoggedUser())) {
 			return "redirect:/projects";
 		}
+		//serve per caricare i tag del progetto
+		model.addAttribute("projectForm", project);
 		model.addAttribute("taskForm", task);
 		return "taskUpdate";
 	}
 
 	@RequestMapping(value = { "/projects/{projectId}/tasks/update/{taskId}" }, method = RequestMethod.POST)
 	public String updateTask(@Valid @ModelAttribute("taskForm") Task taskForm, @PathVariable Long taskId, @PathVariable Long projectId,
-			BindingResult taskBindingResult, Model model) {
+			@RequestParam("tagsId") List<Long> tagsId, BindingResult taskBindingResult, Model model) {
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
 		if(!project.getOwner().equals(loggedUser)) {
@@ -116,6 +121,18 @@ public class TaskController {
 			Task task = this.taskService.getTask(taskId);
 			task.setDescription(taskForm.getDescription());
 			task.setName(taskForm.getName());
+			task.setTags(taskForm.getTags());
+			task.setCompleted(taskForm.getCompleted());
+			List<Tag> projectTags = project.getTags();
+			System.out.println("TAG PROGETTO " + projectTags);
+			System.out.println("TAGS ID " + tagsId);
+			for(Long tagId : tagsId) {
+				for(Tag tag : projectTags) {
+					if(tagId == tag.getId()) {
+						task.getTags().add(tag);
+					}
+				}
+			}
 			this.taskService.saveTask(task);
 			return "taskUpdateSuccessful";
 		}

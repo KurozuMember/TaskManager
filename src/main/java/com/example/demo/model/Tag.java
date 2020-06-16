@@ -112,4 +112,11 @@ public class Tag {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Tag [id=" + id + ", name=" + name + "]";
+	}
+	
+	
 }
