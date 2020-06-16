@@ -39,9 +39,8 @@
 		<p><a th:href="'/projects/delete/' + ${project.id}">Elimina Progetto</a></p>
 		<p><a th:href="'/projects/share/' + ${project.id}">Condividi Progetto</a></p>
 		<!--posso aggiungere task solo se sono il proprietario-->
-		<h4>
-			<a th:href="'/projects/' + ${project.Id} + '/addTask'">Aggiungi task</a>
-		</h4>
+		<p><a th:href="'/projects/' + ${project.Id} + '/addTask'">Aggiungi task</a></p>
+		
 	</div>
 </body>
 </html>
