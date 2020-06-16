@@ -34,7 +34,7 @@ public class TaskService {
 		task.setCompleted(true);
 		return this.taskrepository.save(task);
 	}
-	
+	@Transactional
 	public Task addTaskToProject(Project project, Task task) {
 		project.addTask(task);
 		this.projectService.saveProject(project);

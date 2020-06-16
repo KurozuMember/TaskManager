@@ -46,16 +46,20 @@ public class TaskController {
 			User loggedUser = sessionData.getLoggedUser();
 			Project project = projectService.getProject(projectId);
 
+			System.out.println("PROGETTO: " + project.getId());
+			System.out.println("OWNER PROGETTO: " + project.getOwner().toString());
+			//System.out.println("OWNER: " + loggedUser);
 			//se l'utente loggato non risulta il proprietario
 			if(!project.getOwner().equals(loggedUser))		//possiamo fare getOwner perché l'associazione con lo User è EAGER
-				return "redirect:/projects/"+projectId;              
+				return "redirect:/projects/"+projectId;
 
+			model.addAttribute("project", project);
 			model.addAttribute("taskForm", new Task());
 
 			return "addTask";
 		}
 		
-		@RequestMapping(value = { "/projects/{project.Id}/addTask" }, method = RequestMethod.POST)
+		@RequestMapping(value = { "/projects/{projectId}/addTask" }, method = RequestMethod.POST)
 		public String createTask(@Valid @ModelAttribute("taskForm") Task task, @PathVariable Long projectId, BindingResult taskBindingResult, Model model) {
 			User loggedUser = sessionData.getLoggedUser();
 			taskValidator.validate(task, taskBindingResult);
@@ -67,5 +71,50 @@ public class TaskController {
 			}
 			model.addAttribute("loggedUser", loggedUser);
 			return "addTask";
+		}
+		
+		//il metodo cattura la richiesta della modifica del task e predispone una form di modifica
+		@RequestMapping(value= { "/projects/{projectId}/tasks/update/{taskId}" }, method = RequestMethod.GET)
+		public String taskForm(Model model, @PathVariable Long projectId, @PathVariable Long taskId) {
+			Task task = taskService.getTask(taskId);
+			Project project = projectService.getProject(projectId);
+			if(!project.getOwner().equals(sessionData.getLoggedUser())) {
+				return "redirect:/projects";
+			}
+			model.addAttribute("taskForm", task);
+			return "taskUpdate";
+		}
+
+		@RequestMapping(value = { "/projects/{projectId}/tasks/update/{taskId}" }, method = RequestMethod.POST)
+		public String updateTask(@Valid @ModelAttribute("taskForm") Task taskForm, @PathVariable Long taskId, @PathVariable Long projectId,
+				BindingResult taskBindingResult, Model model) {
+			User loggedUser = sessionData.getLoggedUser();
+			Project project = projectService.getProject(projectId);
+			if(!project.getOwner().equals(loggedUser)) {
+				return "redirect:/projects";
+			}
+			taskValidator.validate(taskForm, taskBindingResult);
+			if (!taskBindingResult.hasErrors()) {
+
+				Task task = this.taskService.getTask(taskId);
+				task.setDescription(taskForm.getDescription());
+				task.setName(taskForm.getName());
+				this.taskService.saveTask(task);
+				return "taskUpdateSuccessful";
+			}
+			return "taskUpdate";
+		}
+
+		
+		@RequestMapping(value = { "projects/{projectId}/tasks/delete/{taskId}" }, method = RequestMethod.GET)
+		public String confirmDeleteTask(Model model, @PathVariable Long taskId, @PathVariable Long projectId) {
+			User loggedUser = sessionData.getLoggedUser();
+			Project project = projectService.getProject(projectId);
+			if(!project.getOwner().equals(loggedUser)) {
+				return "redirect:/projects";
+			}
+			Task task = taskService.getTask(taskId);
+			this.taskService.deleteTask(task);
+			return "taskDelete";
 		}
 }

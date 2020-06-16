@@ -7,15 +7,10 @@
 
 <body>
 	<h1 th:text="${project.name}"></h1>
-<<<<<<< HEAD
 	<h4 th:text="${project.description}" style="color: gray"></h4>
-=======
-	<h4 th:text="${project.description}" style="color:gray"></h4>
-	
->>>>>>> master
 
 	<div>
-		<h3>Shared with:</h3>
+		<h3>Condiviso con:</h3>
 		<ul>
 			<li th:each="member: ${members}">
 				<div th:text="${member.firstName}+ ' ' + ${member.lastName}"></div>
@@ -23,25 +18,35 @@
 		</ul>
 	</div>
 
-	<h3>Tasks</h3>
+	<h3>Task</h3>
 	<!--appare solo se non ci sono task-->
 	<div th:if="${project.tasks.size() <= 0}">
-		<h4>No tasks</h4>
+		<h4>Nessun task</h4>
 	</div>
 	<!--lista dei task-->
+	<table >
+        <tr th:each="task: ${project.tasks}">
+            <td><div th:text="${task.name}"></div></td>
+            <td><div th:text="${task.description}"></div></td>
+            <td th:if="${project.owner.equals(loggedUser)}"><a th:href="'/tasks/assign/' + ${task.id}">Assegna Task</a></td>
+            <td th:if="${project.owner.equals(loggedUser)}"><a th:href="'/tasks/update/' + ${task.id}">Modifica Task</a></td>
+            <td th:if="${project.owner.equals(loggedUser)}"><a th:href="'/tasks/delete/' + ${task.id}">Cancella Task</a></td>
+        </tr>
+       
+    </table>
 	<ul>
 		<li th:each="task: ${project.tasks}">
 			<div th:text="${task.name}"></div>
 			<div th:text="${task.description}" style=""></div>
 		</li>
 	</ul>
-	<p> <a th:href="'/projects/update/' + ${project.id}">Modifica Progetto</a></p>
-	<p> <a th:href="'/projects/delete/' + ${project.id}">Elimina Progetto</a></p>
-	<p> <a th:href="'/projects/share/' + ${project.id}">Condividi Progetto</a></p>
-	<!--posso aggiungere task solo se sono il proprietario-->
 	<div th:if="${project.owner.equals(loggedUser)}">
+		<p><a th:href="'/projects/update/' + ${project.id}">Modifica Progetto</a></p>
+		<p><a th:href="'/projects/delete/' + ${project.id}">Elimina Progetto</a></p>
+		<p><a th:href="'/projects/share/' + ${project.id}">Condividi Progetto</a></p>
+		<!--posso aggiungere task solo se sono il proprietario-->
 		<h4>
-			<a th:href="'/projects/' + ${project.Id} + '/addTask'">Add task</a>
+			<a th:href="'/projects/' + ${project.Id} + '/addTask'">Aggiungi task</a>
 		</h4>
 	</div>
 </body>

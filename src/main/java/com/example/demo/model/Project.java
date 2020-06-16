@@ -24,12 +24,11 @@ public class Project {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private User owner;
 
-	@ManyToMany											//fetch type is LAZY by default
+	@ManyToMany												//fetch type is LAZY by default
 	private List<User> members;
   
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="project_id")
-  
 	private List<Task> tasks;
 
 	@OneToMany

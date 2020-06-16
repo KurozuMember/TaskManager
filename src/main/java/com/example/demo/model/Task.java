@@ -53,6 +53,8 @@ public class Task {
 	}
 	
 	public Task() {
+		this.completed = false;
+		this.comments = new ArrayList<>();
 		this.tags = new ArrayList<>();
 	}
 
