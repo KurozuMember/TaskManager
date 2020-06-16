@@ -49,6 +49,14 @@ public class TaskController {
 	@Autowired
 	CredentialsValidator credentialsValidator;
 
+	//ritorna la pagina del Task
+	@RequestMapping(value = { "/projects/{projectId}/tasks/{taskId}" }, method = RequestMethod.GET)
+	public String task(Model model, @PathVariable Long taskId) {
+		Task task = this.taskService.getTask(taskId);
+		model.addAttribute("taskForm", task);
+		return "task";
+	}
+	
 	//L'URL che cattura la richiesta è parametrico: indichiamo il campo parametrico con parentesi graffe
 	@RequestMapping(value = { "/projects/{projectId}/addTask" }, method = RequestMethod.GET)
 	public String addTask(Model model, @PathVariable Long projectId) { 	//annotiamo con @PathVariable l'oggetto parametrico che ha lo stesso nome dato nell'URL
@@ -117,9 +125,7 @@ public class TaskController {
 	//il metodo cattura la richiesta dell'assegnazione del task e predispone una form di assegnazione
 	@RequestMapping(value= { "/projects/{projectId}/tasks/assign/{taskId}" }, method = RequestMethod.GET)
 	public String assignTask(Model model, @PathVariable Long projectId, @PathVariable Long taskId) {
-		System.out.println("ID PATH GET: " + projectId);
 		Project project = projectService.getProject(projectId);
-		System.out.println("ID PROGETTO GET: " + project.getId());
 		if(!project.getOwner().equals(sessionData.getLoggedUser())) {
 			return "redirect:/projects";
 		}
@@ -137,14 +143,19 @@ public class TaskController {
 		if(!project.getOwner().equals(loggedUser)) {
 			return "redirect:/projects";
 		}
+		//verifico che lo username esista
 		credentialsValidator.existsUserNameEntered(credentialsForm, credentialsBindingResult);
 		if(!credentialsBindingResult.hasErrors()) {
-			Credentials credentials = this.credentialsService.getCredential(credentialsForm.getUserName());
-			User user= credentials.getUser();
-			Task task = this.taskService.getTask(taskId);
-			task.setAssignee(user);
-			this.taskService.saveTask(task);
-			return "taskAssignSuccessful";
+			//verifico che lo username si riferisca a un membro del progetto
+			credentialsValidator.refersToProjectMember(credentialsForm, project, credentialsBindingResult);
+			if(!credentialsBindingResult.hasErrors()) {
+				Credentials credentials = this.credentialsService.getCredential(credentialsForm.getUserName());
+				User user= credentials.getUser();
+				Task task = this.taskService.getTask(taskId);
+				task.setAssignee(user);
+				this.taskService.saveTask(task);
+				return "taskAssignSuccessful";
+			}
 		}
 		return "assignTask";
 	}
@@ -157,7 +168,9 @@ public class TaskController {
 			return "redirect:/projects";
 		}
 		Task task = taskService.getTask(taskId);
-		this.taskService.deleteTask(task);
-		return "taskDelete";
+		//this.taskService.deleteTask(task);
+		project.getTasks().remove(task);
+		this.projectService.saveProject(project);
+		return "deleteTask";
 	}
 }

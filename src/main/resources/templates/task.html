@@ -6,23 +6,25 @@
 </head>
 
 <body>
-	<h1 th:text="${task.name}"></h1>
-	<h4 th:text="${task.description}" style="color:gray"></h4>
+	<h1 th:text="${taskForm.name}"></h1>
+	<h4 th:text="${taskForm.description}" style="color:gray"></h4>
+	<h1 th:text="'Assegnato a: ' + (${taskForm.assignee} ? ${taskForm.assignee} : ()"></h1>
 	<!-- testo con condizione: se il task è completato mostra 'Completed', altrimenti 'To do'.
 		 la sintassi è (if) : (then) :? (valore di default, ovvero 'To do') -->
-	<!-- <h4 th:text="'Status: ' + (${task.isCompleted()} ? 'Completed' : (${!task.isCompleted()} ?: 'To do'))"></h4> -->
-	<h4 th:text="'Stato: ' + (${task.isCompleted()} ? 'Completed' ?: 'To do'))"></h4>
-	
+	<h4 th:text="'Stato: ' + (${taskForm.isCompleted()} ? 'Completed' : (${!taskForm.isCompleted()} ?: 'To do'))"></h4>
+	<!-- <h4 th:text="'Stato: ' + (${taskForm.isCompleted()} ? 'Completed' ?: 'To do'))"></h4> -->
 	<!-- se sei membro del progetto puoi aggiungere un commento al task 
 	<div th:if="${project.members.contains(loggedUser)}">
 		<p><a th:href="'/tasks/' + ${task.id} + 'addComment/' ">Aggiungi commento</a></p>
 	</div> -->
-	
 	<!-- solo se sei owner del progetto puoi modifcare, eliminare o assegnare il task -->
 	<!-- <div th:if="${project.owner.equals(loggedUser)}">
 		<p><a th:href="'/tasks/update/' + ${task.id}">Modifica Task</a></p>
 		<p><a th:href="'/tasks/delete/' + ${task.id}">Elimina Task</a></p>
 		<p><a th:href="'/tasks/assign/' + ${task.id}">Assegna Task</a></p>
 	</div> -->
+	<h2><a th:href="@{/projects}">I miei progetti</a></h2>
+	<h2>Torna alla <a th:href="@{/home}">Home</a></h2>
+	
 </body>
 </html>
