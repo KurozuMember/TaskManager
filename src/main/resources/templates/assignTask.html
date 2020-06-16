@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="https://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>TaskManager</title>
+</head>
+<body>
+	<h1>Inserisci il membro a cui assegnare il task</h1>
+	<form id = "assignTaskForm"
+      th:action="@{'/projects/' + ${projectId} + '/tasks/assign/' + ${taskId}}"
+      method="POST">
+
+    <table>
+        <tr>
+            <td><label for="userNameInput">Username</label>
+            <td><input id=userNameInput type="text" th:field="${credentialsForm.userName}" placeholder="USERNAME" required/></td>
+            <td th:if="${#fields.hasErrors('credentialsForm.userName')}" th:errors="${credentialsForm.userName}" th:style="'color:red'"></td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Conferma</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

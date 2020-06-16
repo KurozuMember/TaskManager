@@ -151,7 +151,6 @@ public class ProjectController {
 	@RequestMapping(value = {"/projects/share/{projectId}"}, method = RequestMethod.POST)
 	public String shareProject(Model model, @Valid @ModelAttribute ("credentialsForm") Credentials credentialsForm, BindingResult credentialsBindingResult, @PathVariable Long projectId) {
 		Project project = projectService.getProject(projectId);
-
 		credentialsValidator.existsUserNameEntered(credentialsForm, credentialsBindingResult);
 		if(!credentialsBindingResult.hasErrors()) {
 			Credentials credentials = this.credentialsService.getCredential(credentialsForm.getUserName());
