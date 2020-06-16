@@ -31,6 +31,9 @@ public class User {
 	@ManyToMany(mappedBy="members")								//fetch type is LAZY by default
 	private List<Project> visibleProjects;
 
+	@OneToMany(mappedBy="assignee")
+	private List<Task> tasks;
+	
 	@OneToMany(mappedBy="publisher")
 	private List<Comment> comments;
 	

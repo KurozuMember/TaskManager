@@ -8,7 +8,10 @@
 <body>
 	<h1 th:text="${task.name}"></h1>
 	<h4 th:text="${task.description}" style="color:gray"></h4>
-
+	<!-- testo con condizione: se il task è completato mostra 'Completed', altrimenti 'To do'.
+		 la sintassi è (if) : (then) :? (valore di default, ovvero 'To do') -->
+	<!-- <h4 th:text="'Status: ' + (${task.isCompleted()} ? 'Completed' : (${!task.isCompleted()} ?: 'To do'))"></h4> -->
+	<h4 th:text="'Status: ' + (${task.isCompleted()} ? 'Completed' ?: 'To do'))"></h4>
 	<div th:if="${members.size() >0">
 		<h3>Shared with:</h3>
 		<ul>

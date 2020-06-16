@@ -19,6 +19,7 @@ import com.example.demo.controller.validation.ProjectValidator;
 import com.example.demo.model.Credentials;
 import com.example.demo.model.Project;
 import com.example.demo.model.User;
+
 import com.example.demo.services.CredentialService;
 import com.example.demo.services.ProjectService;
 import com.example.demo.services.UserService;
@@ -88,9 +89,7 @@ public class ProjectController {
 		if (!projectBindingResult.hasErrors()) {
 			project.setOwner(loggedUser);
 			this.projectService.saveProject(project);
-			System.out.println(project.getId());
 			return "redirect:/projects/" + project.getId();
-
 		}
 		model.addAttribute("loggedUser", loggedUser);
 		return "addProject";
