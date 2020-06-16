@@ -9,7 +9,7 @@
 <body>
 <h1>Update Task Information</h1>
 <form id = "updateTaskForm"
-      th:action="@{'/tasks/update/' + ${taskForm.Id}}"
+      th:action="@{'/projects/' + ${projectId} + '/tasks/update/' + ${taskId}}"
       method="POST">
 
     <table>
@@ -25,7 +25,7 @@
         </tr>
         <tr>
             <td><label for="completedInput">Completato </label></td>
-            <td><input id="completedInput"><input type="checkbox" name="completato"/></td>
+            <td><input id="completedInput" type="checkbox" name="completato"/></td>
         </tr>
         <tr>
             <td>
