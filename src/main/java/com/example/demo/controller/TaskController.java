@@ -41,8 +41,8 @@ public class TaskController {
 	UserService userService;
 	
 	//L'URL che cattura la richiesta è parametrico: indichiamo il campo parametrico con parentesi graffe
-		@RequestMapping(value = { "addTask" }, method = RequestMethod.GET)
-		public String addTask(Model model, @Valid @ModelAttribute("taskForm") Task task, @PathVariable Long projectId, BindingResult taskBindingResult) { 	//annotiamo con @PathVariable l'oggetto parametrico che ha lo stesso nome dato nell'URL
+		@RequestMapping(value = { "/projects/{projectId}/addTask" }, method = RequestMethod.GET)
+		public String addTask(Model model, @PathVariable Long projectId) { 	//annotiamo con @PathVariable l'oggetto parametrico che ha lo stesso nome dato nell'URL
 			User loggedUser = sessionData.getLoggedUser();
 			Project project = projectService.getProject(projectId);
 
@@ -50,10 +50,22 @@ public class TaskController {
 			if(!project.getOwner().equals(loggedUser))		//possiamo fare getOwner perché l'associazione con lo User è EAGER
 				return "redirect:/projects/"+projectId;              
 
-			model.addAttribute("project", project);
-			model.addAttribute("loggedUser", loggedUser);
 			model.addAttribute("taskForm", new Task());
 
+			return "addTask";
+		}
+		
+		@RequestMapping(value = { "/projects/{project.Id}/addTask" }, method = RequestMethod.POST)
+		public String createTask(@Valid @ModelAttribute("taskForm") Task task, @PathVariable Long projectId, BindingResult taskBindingResult, Model model) {
+			User loggedUser = sessionData.getLoggedUser();
+			taskValidator.validate(task, taskBindingResult);
+			if (!taskBindingResult.hasErrors()) {
+				Project project = projectService.getProject(projectId);
+				project.addTask(task);
+				projectService.saveProject(project);
+				return "redirect:/projects/" + projectId;				
+			}
+			model.addAttribute("loggedUser", loggedUser);
 			return "addTask";
 		}
 }

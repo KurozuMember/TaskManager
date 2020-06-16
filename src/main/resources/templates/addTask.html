@@ -7,28 +7,27 @@
 
 <body>
 	<h1>Create new Task</h1>
-	<form id="taskForm" th:action="@{/projects/}"
-		 method="POST">
-		
-	<table>
-		<tr>
-			<td><label for="projectNameInput">Project Name</label>
-			<td><input id=projectNameInput type="text" placeholder="NAME"
-				required th:field="${projectForm.name}" />
-			<td th:if="${#fields.hasErrors('projectForm.name')}"
-				th:errors="${projectForm.name}" th:style="color:red"></td>
-		</tr>
-		<tr>
-			<td><label for="projectDescriptionInput">Description</label></td>
-			<td><input id=projectDescriptionInput type="text"
-				placeholder="DESCRIPTION" required
-				th:field="${projectForm.description}" /></td>
-			<td th:if="${#fields.hasErrors('projectForm.description')}"
-				th:errors="${projectForm.description}" th:style="color:red"></td>
-		</tr>
-		<tr>
-			<td><button type="submit">Create</button></td>
-	</table>
+	<form id="taskForm" th:action="@{addTask}" method="POST">
+
+		<table>
+			<tr>
+				<td><label for="taskNameInput">Task Name</label>
+				<td><input id=taskNameInput type="text" placeholder="NAME"
+					required th:field="${taskForm.name}" />
+				<td th:if="${#fields.hasErrors('taskForm.name')}"
+					th:errors="${taskForm.name}" th:style="color:red"></td>
+			</tr>
+			<tr>
+				<td><label for="taskDescriptionInput">Description</label></td>
+				<td><input id=taskDescriptionInput type="text"
+					placeholder="DESCRIPTION" required
+					th:field="${taskForm.description}" /></td>
+				<td th:if="${#fields.hasErrors('taskForm.description')}"
+					th:errors="${taskForm.description}" th:style="color:red"></td>
+			</tr>
+			<tr>
+				<td><button type="submit">Create</button></td>
+		</table>
 	</form>
 </body>
 </html>

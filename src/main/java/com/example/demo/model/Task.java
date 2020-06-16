@@ -28,6 +28,9 @@ public class Task {
 	@Column(nullable=false)
 	Boolean completed;
 	
+	@ManyToOne
+	private User assignee;
+	
 	@ManyToMany
 	private List<Tag> tags;
 	
@@ -107,6 +110,22 @@ public class Task {
 		this.completed = completed;
 	}
 
+	public User getAssignee() {
+		return assignee;
+	}
+
+	public void setAssignee(User assignee) {
+		this.assignee = assignee;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
 	public List<Tag> getTags() {
 		return tags;
 	}
@@ -160,9 +179,8 @@ public class Task {
 
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", name=" + name + ", description=" + description + ", creationTimestamp="
-				+ creationTimestamp + ", lastUpdateTimestamp=" + lastUpdateTimestamp + ", completed=" + completed
-				+ ", tags=" + tags + ", comments=" + comments + "]";
+		return "Task [name=" + name + ", description=" + description + ", creationTimestamp=" + creationTimestamp
+				+ ", lastUpdateTimestamp=" + lastUpdateTimestamp + ", completed=" + completed + ", assignee=" + assignee
+				+ "]";
 	}
-	
 }

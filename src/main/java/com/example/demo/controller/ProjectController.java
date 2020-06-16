@@ -79,9 +79,7 @@ public class ProjectController {
 		if (!projectBindingResult.hasErrors()) {
 			project.setOwner(loggedUser);
 			this.projectService.saveProject(project);
-			System.out.println(project.getId());
 			return "redirect:/projects/" + project.getId();
-			
 		}
 		model.addAttribute("loggedUser", loggedUser);
 		return "addProject";

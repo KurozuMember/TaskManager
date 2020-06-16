@@ -33,7 +33,7 @@
 	<!--posso aggiungere task solo se sono il proprietario-->
 	<div th:if="${project.owner.equals(loggedUser)}">
 		<h4>
-			<a th:href="addTask">Add task</a>
+			<a th:href="'/projects/' + ${project.Id} + '/addTask'">Add task</a>
 		</h4>
 	</div>
 </body>
