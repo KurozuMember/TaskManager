@@ -60,13 +60,16 @@ public class ProjectController {
 	public String project(Model model, @PathVariable Long projectId) { 	//annotiamo con @PathVariable l'oggetto parametrico che ha lo stesso nome dato nell'URL
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
-		List<User> members = userService.getMembers(project);
+
 		//se il progetto non è presente nel DB
 		if (project == null)  
 			return "redirect:/projects";
 
+		List<User> members = userService.getMembers(project);
+
+
 		//se l'utente loggato non risulta il proprietario e non è nella lista dei membri
-		if(!project.getOwner().equals(loggedUser) && !members.contains(loggedUser))		//possiamo fare getOwner perché l'associazione con lo User è EAGER
+		if(!isProjectOwner(project, loggedUser) && !isProjectMember(project, loggedUser))		//possiamo fare getOwner perché l'associazione con lo User è EAGER
 			return "redirect:/projects";              
 
 		model.addAttribute("project", project);
@@ -108,6 +111,10 @@ public class ProjectController {
 	@RequestMapping(value= { "/projects/update/{projectId}" }, method = RequestMethod.GET)
 	public String projectForm(Model model, @PathVariable Long projectId) {
 		Project project = projectService.getProject(projectId);
+		User loggedUser = sessionData.getLoggedUser();
+		if(!isProjectOwner(project, loggedUser)) {
+			return "redirect:/projects/";
+		}
 		model.addAttribute("projectForm", project);
 		return "projectUpdate";
 	}
@@ -117,7 +124,6 @@ public class ProjectController {
 			BindingResult projectBindingResult, Model model) {
 		projectValidator.validate(projectForm, projectBindingResult);
 		if (!projectBindingResult.hasErrors()) {
-
 			Project project = this.projectService.getProject(projectId);
 			project.setDescription(projectForm.getDescription());
 			project.setName(projectForm.getName());
@@ -125,7 +131,6 @@ public class ProjectController {
 			return "projectUpdateSuccessful";
 		}
 		return "projectUpdate";
-
 	}
 
 	@RequestMapping(value = { "/projects/delete/{projectId}" }, method = RequestMethod.GET)
@@ -133,7 +138,6 @@ public class ProjectController {
 		Project project = projectService.getProject(projectId);
 		this.projectService.deleteProject(project);
 		return "projectDelete";
-
 	}
 
 	@RequestMapping(value = {"/projects/share/{projectId}" }, method = RequestMethod.GET)
@@ -142,7 +146,6 @@ public class ProjectController {
 		model.addAttribute("projectForm", project);
 		model.addAttribute("credentialsForm", new Credentials());
 		return "shareProject";
-
 	}
 
 	@RequestMapping(value = {"/projects/share/{projectId}"}, method = RequestMethod.POST)
@@ -159,10 +162,13 @@ public class ProjectController {
 		model.addAttribute("projectForm", project);
 		model.addAttribute("credentialsForm", credentialsForm);		
 		return "shareProject";
+	}
 
+	private boolean isProjectOwner(Project project, User owner) {
+		return project.getOwner().equals(owner);
+	}
 
-
-
-
+	private boolean isProjectMember(Project project, User member) {
+		return project.getMembers().contains(member);
 	}
 }

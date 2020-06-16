@@ -7,7 +7,7 @@
 
 <body>
 	<h1>Create new Task</h1>
-	<form id="taskForm" th:action="@{addTask}" method="POST">
+	<form id="taskForm" th:action="@{'/projects/' + ${project.Id} + '/addTask'}" method="POST">
 
 		<table>
 			<tr>

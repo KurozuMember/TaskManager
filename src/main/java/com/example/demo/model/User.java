@@ -128,10 +128,6 @@ public class User {
 		builder.append(creationTimestamp);
 		builder.append(", lastUpdateTimestamp=");
 		builder.append(lastUpdateTimestamp);
-		builder.append(", ownedProjects=");
-		builder.append(ownedProjects);
-		builder.append(", visibleProjects=");
-		builder.append(visibleProjects);
 		builder.append("]");
 		return builder.toString();
 	}
