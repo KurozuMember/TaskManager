@@ -21,6 +21,7 @@ public class ProjectValidator implements Validator {
 	@Override
 	public void validate(Object o, Errors errors) {
 		Project project = (Project)o;
+		
 		String name = project.getName().trim();
 		String description = project.getDescription().trim();
 

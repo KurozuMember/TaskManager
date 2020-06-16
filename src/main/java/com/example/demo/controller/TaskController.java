@@ -18,9 +18,9 @@ import com.example.demo.controller.validation.TaskValidator;
 import com.example.demo.model.Project;
 import com.example.demo.model.Task;
 import com.example.demo.model.User;
-import com.example.demo.service.ProjectService;
-import com.example.demo.service.TaskService;
-import com.example.demo.service.UserService;
+import com.example.demo.services.ProjectService;
+import com.example.demo.services.TaskService;
+import com.example.demo.services.UserService;
 
 @Controller
 public class TaskController {

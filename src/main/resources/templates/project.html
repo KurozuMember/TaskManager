@@ -7,7 +7,12 @@
 
 <body>
 	<h1 th:text="${project.name}"></h1>
+<<<<<<< HEAD
 	<h4 th:text="${project.description}" style="color: gray"></h4>
+=======
+	<h4 th:text="${project.description}" style="color:gray"></h4>
+	
+>>>>>>> master
 
 	<div>
 		<h3>Shared with:</h3>
@@ -30,6 +35,9 @@
 			<div th:text="${task.description}" style=""></div>
 		</li>
 	</ul>
+	<p> <a th:href="'/projects/update/' + ${project.id}">Modifica Progetto</a></p>
+	<p> <a th:href="'/projects/delete/' + ${project.id}">Elimina Progetto</a></p>
+	<p> <a th:href="'/projects/share/' + ${project.id}">Condividi Progetto</a></p>
 	<!--posso aggiungere task solo se sono il proprietario-->
 	<div th:if="${project.owner.equals(loggedUser)}">
 		<h4>

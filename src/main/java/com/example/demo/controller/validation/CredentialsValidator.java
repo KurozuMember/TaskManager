@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 
 import com.example.demo.model.Credentials;
 import com.example.demo.model.User;
-import com.example.demo.service.CredentialService;
+import com.example.demo.services.CredentialService;
 
 @Component
 public class CredentialsValidator implements Validator {
@@ -59,7 +59,6 @@ public class CredentialsValidator implements Validator {
 		String password=credentials.getPassword();
 
 		if(username.trim().isEmpty()) {
-			System.out.println("ciao");
 			errors.rejectValue("userName","required");
 
 		}
@@ -72,6 +71,20 @@ public class CredentialsValidator implements Validator {
 			errors.rejectValue("password","size");
 
 		}
+
+	}
+
+	public void existsUserNameEntered(Object o, Errors errors) {
+		Credentials credentials = (Credentials)o;
+		String username = credentials.getUserName();
+		if(username.trim().isEmpty()) {
+			errors.rejectValue("userName","required");
+		}
+		else if(this.credentialsService.getCredential(username) == null) {
+			errors.rejectValue("userName", "doesntExist");
+		}
+
+
 	}
 	@Override
 	public boolean supports(Class<?>clazz) {
