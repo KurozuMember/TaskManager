@@ -9,17 +9,18 @@
 
 <body align="center">
 <table class="container2" align="center">
+<tbody align="left">
 <tr>
-	<td><h1 class="h2">Nome:</h1></td>
+	<td><h1 class="h3">Nome:</h1></td>
 	<td><h1 th:text="${project.name}"></h1></td>
 </tr>
 <tr>
-	<td><h1 class="h2">Descrizione:</h1></td>
+	<td><h1 class="h3">Descrizione:</h1></td>
 	<td><h4 th:text="${project.description}" style="color: gray"></h4></td>
 </tr>
 <tr>
-	<td><h1 class="h2">Tags:</h1></td>
-	<td th:each="tag: ${project.tags}"><h4 th:text="${tag.name}" ></h4></td>
+	<td><h1 class="h3">Tags:</h1></td>
+	<td th:each="tag: ${project.tags}"><h4 th:text="${tag.name}" th:style="'color:'+ ${tag.color}" ></h4></td>
 </tr>
 </table>
 <h3 class="h2">Condiviso con:</h3>
@@ -70,7 +71,9 @@
 		<form id = "insertTagForm"
       th:action="@{'/projects/' + ${project.Id} + '/addTag'}"
       method="POST">
-      <table  class="container2" align="center">
+      
+      <table  class="container2" align="center" >
+      <tbody align="left">
 			<tr>
 				<td><label class="h3" for="tagNameInput">tag Name</label>
 				<td><input id=tagNameInput type="text" placeholder="NAME"
