@@ -118,7 +118,9 @@ public class TaskController {
 
 	@RequestMapping(value = { "/projects/{projectId}/tasks/update/{taskId}" }, method = RequestMethod.POST)
 	public String updateTask(@Valid @ModelAttribute("taskForm") Task taskForm, @PathVariable Long taskId, @PathVariable Long projectId,
+
 			@RequestParam(value = "tagsId", required=false) List<Long> tagsId, BindingResult taskBindingResult, Model model) {
+
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
 		if(!project.getOwner().equals(loggedUser)) {
