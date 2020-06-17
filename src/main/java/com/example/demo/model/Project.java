@@ -30,6 +30,7 @@ public class Project {
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="project_id")
 	private List<Task> tasks;
+
 	@OneToMany( cascade=CascadeType.ALL)
 	@JoinColumn(name="project_id")
 	private List<Tag> tags;

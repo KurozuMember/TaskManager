@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.controller.session.SessionData;
 import com.example.demo.controller.validation.CredentialsValidator;
 import com.example.demo.controller.validation.TaskValidator;
 import com.example.demo.model.Credentials;
 import com.example.demo.model.Project;
+import com.example.demo.model.Tag;
 import com.example.demo.model.Task;
 import com.example.demo.model.User;
 import com.example.demo.services.CredentialsService;
@@ -49,6 +52,14 @@ public class TaskController {
 	@Autowired
 	CredentialsValidator credentialsValidator;
 
+	//ritorna la pagina del Task
+	@RequestMapping(value = { "/projects/{projectId}/tasks/{taskId}" }, method = RequestMethod.GET)
+	public String task(Model model, @PathVariable Long taskId) {
+		Task task = this.taskService.getTask(taskId);
+		model.addAttribute("taskForm", task);
+		return "task";
+	}
+	
 	//L'URL che cattura la richiesta è parametrico: indichiamo il campo parametrico con parentesi graffe
 	@RequestMapping(value = { "/projects/{projectId}/addTask" }, method = RequestMethod.GET)
 	public String addTask(Model model, @PathVariable Long projectId) { 	//annotiamo con @PathVariable l'oggetto parametrico che ha lo stesso nome dato nell'URL
@@ -90,13 +101,15 @@ public class TaskController {
 		if(!project.getOwner().equals(sessionData.getLoggedUser())) {
 			return "redirect:/projects";
 		}
+		//serve per caricare i tag del progetto
+		model.addAttribute("projectForm", project);
 		model.addAttribute("taskForm", task);
 		return "taskUpdate";
 	}
 
 	@RequestMapping(value = { "/projects/{projectId}/tasks/update/{taskId}" }, method = RequestMethod.POST)
 	public String updateTask(@Valid @ModelAttribute("taskForm") Task taskForm, @PathVariable Long taskId, @PathVariable Long projectId,
-			BindingResult taskBindingResult, Model model) {
+			@RequestParam("tagsId") List<Long> tagsId, BindingResult taskBindingResult, Model model) {
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
 		if(!project.getOwner().equals(loggedUser)) {
@@ -108,6 +121,18 @@ public class TaskController {
 			Task task = this.taskService.getTask(taskId);
 			task.setDescription(taskForm.getDescription());
 			task.setName(taskForm.getName());
+			task.setTags(taskForm.getTags());
+			task.setCompleted(taskForm.getCompleted());
+			List<Tag> projectTags = project.getTags();
+			System.out.println("TAG PROGETTO " + projectTags);
+			System.out.println("TAGS ID " + tagsId);
+			for(Long tagId : tagsId) {
+				for(Tag tag : projectTags) {
+					if(tagId == tag.getId()) {
+						task.getTags().add(tag);
+					}
+				}
+			}
 			this.taskService.saveTask(task);
 			return "taskUpdateSuccessful";
 		}
@@ -117,9 +142,7 @@ public class TaskController {
 	//il metodo cattura la richiesta dell'assegnazione del task e predispone una form di assegnazione
 	@RequestMapping(value= { "/projects/{projectId}/tasks/assign/{taskId}" }, method = RequestMethod.GET)
 	public String assignTask(Model model, @PathVariable Long projectId, @PathVariable Long taskId) {
-		System.out.println("ID PATH GET: " + projectId);
 		Project project = projectService.getProject(projectId);
-		System.out.println("ID PROGETTO GET: " + project.getId());
 		if(!project.getOwner().equals(sessionData.getLoggedUser())) {
 			return "redirect:/projects";
 		}
@@ -137,14 +160,19 @@ public class TaskController {
 		if(!project.getOwner().equals(loggedUser)) {
 			return "redirect:/projects";
 		}
+		//verifico che lo username esista
 		credentialsValidator.existsUserNameEntered(credentialsForm, credentialsBindingResult);
 		if(!credentialsBindingResult.hasErrors()) {
-			Credentials credentials = this.credentialsService.getCredential(credentialsForm.getUserName());
-			User user= credentials.getUser();
-			Task task = this.taskService.getTask(taskId);
-			task.setAssignee(user);
-			this.taskService.saveTask(task);
-			return "taskAssignSuccessful";
+			//verifico che lo username si riferisca a un membro del progetto
+			credentialsValidator.refersToProjectMember(credentialsForm, project, credentialsBindingResult);
+			if(!credentialsBindingResult.hasErrors()) {
+				Credentials credentials = this.credentialsService.getCredential(credentialsForm.getUserName());
+				User user= credentials.getUser();
+				Task task = this.taskService.getTask(taskId);
+				task.setAssignee(user);
+				this.taskService.saveTask(task);
+				return "taskAssignSuccessful";
+			}
 		}
 		return "assignTask";
 	}
@@ -157,7 +185,9 @@ public class TaskController {
 			return "redirect:/projects";
 		}
 		Task task = taskService.getTask(taskId);
-		this.taskService.deleteTask(task);
-		return "taskDelete";
+		//this.taskService.deleteTask(task);
+		project.getTasks().remove(task);
+		this.projectService.saveProject(project);
+		return "deleteTask";
 	}
 }

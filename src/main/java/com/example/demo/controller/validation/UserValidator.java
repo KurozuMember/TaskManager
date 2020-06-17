@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.example.demo.model.Project;
 import com.example.demo.model.User;
 
 @Component
@@ -26,6 +27,7 @@ public class UserValidator  implements Validator{
 		else if(lastname.length()<MIN_NAME_LENGT||lastname.length()>MAX_NAME_LENGTH)
 			errors.rejectValue("lastName","size");
 	}
+	
 	@Override
 	public boolean supports(Class<?>clazz) {
 		return User.class.equals(clazz);

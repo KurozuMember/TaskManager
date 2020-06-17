@@ -49,8 +49,9 @@
 				</tr>
 			</thead>
         <tr th:each="task: ${project.tasks}">
-            <td><h2 class="h3" th:text="${task.name}"></h2></td>
-            <td><h2 class="h3" th:text="${task.description}"></h2></td>
+
+            <td><a th:href="'/projects/' + ${project.id} + '/tasks/' + ${task.id}" th:text="${task.name}"></a></td>
+            <td><div th:text="${task.description}"></div></td>
             <td th:if="${project.owner.equals(loggedUser)}"><a th:href="${project.Id} + '/tasks/assign/' + ${task.id}">Assegna Task</a></td>
             <td th:if="${project.owner.equals(loggedUser)}"><a th:href="${project.Id} + '/tasks/update/' + ${task.id}">Modifica Task</a></td>
             <td th:if="${project.owner.equals(loggedUser)}"><a th:href="${project.Id} + '/tasks/delete/' + ${task.id}">Cancella Task</a></td>
