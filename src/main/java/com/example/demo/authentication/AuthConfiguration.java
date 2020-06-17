@@ -26,12 +26,12 @@ DataSource datasource;
 	 http
 	 		//authorization paragraph : here we define Who can access which pages
 	 		.authorizeRequests()
-	 		.antMatchers(HttpMethod.GET,"/","/index","/login","/users/register","/users/update").permitAll()
+	 		.antMatchers(HttpMethod.GET,"/","/index","/login","/users/register","/users/update","/js/**","/css/**").permitAll()
 	 		.antMatchers(HttpMethod.POST,"/login","/users/register","/users/update").permitAll()
 	 		.antMatchers(HttpMethod.GET,"/admin").hasAnyAuthority(ADMIN_ROLE)
 	 		.anyRequest().authenticated()
 	 		.and().formLogin()
-	 		.defaultSuccessUrl("/home")
+	 		.defaultSuccessUrl("/logged")
 	 		.and().logout().logoutUrl("/logout")
 	 		.logoutSuccessUrl("/index");
 	 		

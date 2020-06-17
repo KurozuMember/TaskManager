@@ -23,7 +23,7 @@ import com.example.demo.model.Project;
 import com.example.demo.model.Tag;
 import com.example.demo.model.Task;
 import com.example.demo.model.User;
-import com.example.demo.services.CredentialService;
+import com.example.demo.services.CredentialsService;
 import com.example.demo.services.ProjectService;
 import com.example.demo.services.TaskService;
 import com.example.demo.services.UserService;
@@ -47,7 +47,7 @@ public class TaskController {
 	UserService userService;
 	
 	@Autowired
-	CredentialService credentialsService;
+	CredentialsService credentialsService;
 	
 	@Autowired
 	CredentialsValidator credentialsValidator;

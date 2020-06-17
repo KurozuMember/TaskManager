@@ -14,14 +14,14 @@ import com.example.demo.controller.validation.CredentialsValidator;
 import com.example.demo.controller.validation.UserValidator;
 import com.example.demo.model.Credentials;
 import com.example.demo.model.User;
-import com.example.demo.services.CredentialService;
+import com.example.demo.services.CredentialsService;
 
 
 
 @Controller
 public class AuthenticationController {
 	@Autowired
-	CredentialService credentialService;
+	CredentialsService credentialService;
 	@Autowired
 	UserValidator userValidator;
 	@Autowired 

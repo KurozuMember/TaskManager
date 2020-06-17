@@ -16,32 +16,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.example.demo.controller.session.SessionData;
 import com.example.demo.controller.validation.CredentialsValidator;
 import com.example.demo.controller.validation.ProjectValidator;
+import com.example.demo.controller.validation.TagValidator;
 import com.example.demo.model.Credentials;
 import com.example.demo.model.Project;
+import com.example.demo.model.Tag;
+import com.example.demo.model.Task;
 import com.example.demo.model.User;
 
-import com.example.demo.services.CredentialService;
+import com.example.demo.services.CredentialsService;
 import com.example.demo.services.ProjectService;
+import com.example.demo.services.TagService;
 import com.example.demo.services.UserService;
 
 @Controller
 public class ProjectController {
-
+	@Autowired
+	SessionData sessionData;
+/*Services------------------------------------------------*/
 	@Autowired
 	ProjectService projectService;
 
 	@Autowired
 	UserService userService;
-
+	
 	@Autowired
-	SessionData sessionData;
-
+	TagService tagService;
+	
+	@Autowired
+	CredentialsService credentialsService;
+	
+	
+/*Validator----------------------------------------*/
 	@Autowired 
 	ProjectValidator projectValidator;
-
-	@Autowired
-	CredentialService credentialsService;
-
+	@Autowired 
+	TagValidator tagValidator;
 	@Autowired
 	CredentialsValidator credentialsValidator;
 
@@ -75,6 +84,7 @@ public class ProjectController {
 		model.addAttribute("project", project);
 		model.addAttribute("loggedUser", loggedUser);
 		model.addAttribute("members", members);
+		model.addAttribute("tagForm",new Tag());
 
 		return "project";
 	}
@@ -162,7 +172,31 @@ public class ProjectController {
 		model.addAttribute("credentialsForm", credentialsForm);		
 		return "shareProject";
 	}
-
+	
+	/*INSERIMENTO TAG-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+	@RequestMapping(value = { "/projects/{projectId}/addTag" }, method = RequestMethod.POST)
+	public String addTag(@Valid @ModelAttribute("taskForm") Tag tag, @PathVariable Long projectId, BindingResult tagBindingResult, Model model) {
+		User loggedUser = sessionData.getLoggedUser();
+		Project project = projectService.getProject(projectId);
+		if(!isProjectOwner(project, loggedUser)) {
+			return "redirect:/projects/";
+		}
+		tagValidator.validate(tag, tagBindingResult);
+		
+		if (!tagBindingResult.hasErrors()) {
+			tagService.saveTag(tag);
+			project.addTag(tag);
+			projectService.saveProject(project);
+			return "redirect:/projects/" + projectId;				
+		}
+		model.addAttribute("loggedUser", loggedUser);
+		return "project";
+	}
+	
+	
+/*------------------------------------------------------------------------------------------------------------*/
+	
+	/*METODI DI AUSILIO*/
 	private boolean isProjectOwner(Project project, User owner) {
 		return project.getOwner().equals(owner);
 	}

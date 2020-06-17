@@ -31,7 +31,8 @@ public class Project {
 	@JoinColumn(name="project_id")
 	private List<Task> tasks;
 
-	@OneToMany(mappedBy="project")
+	@OneToMany( cascade=CascadeType.ALL)
+	@JoinColumn(name="project_id")
 	private List<Tag> tags;
 	
 
