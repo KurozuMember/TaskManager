@@ -52,9 +52,9 @@
 
             <td><a th:href="'/projects/' + ${project.id} + '/tasks/' + ${task.id}" th:text="${task.name}"></a></td>
             <td><div th:text="${task.description}"></div></td>
-            <td th:if="${project.owner.equals(loggedUser)}"><a th:href="${project.Id} + '/tasks/assign/' + ${task.id}">Assegna Task</a></td>
-            <td th:if="${project.owner.equals(loggedUser)}"><a th:href="${project.Id} + '/tasks/update/' + ${task.id}">Modifica Task</a></td>
-            <td th:if="${project.owner.equals(loggedUser)}"><a th:href="${project.Id} + '/tasks/delete/' + ${task.id}">Cancella Task</a></td>
+            <td th:if="${project.owner.equals(loggedUser)}"><a th:href="'/projects/' + ${project.Id} + '/tasks/assign/' + ${task.id}">Assegna Task</a></td>
+            <td th:if="${project.owner.equals(loggedUser)}"><a th:href="'/projects/' + ${project.Id} + '/tasks/update/' + ${task.id}">Modifica Task</a></td>
+            <td th:if="${project.owner.equals(loggedUser)}"><a th:href="'/projects/' + ${project.Id} + '/tasks/delete/' + ${task.id}">Cancella Task</a></td>
         </tr>
        
     </table>
@@ -99,7 +99,5 @@
 	   <button type="submit" align="center" class="button" style="margin-top:2%">Aggiungi</button>
       </form>
 	</div>
-
-<form onsubmit="return validate(this);"
 </body>
 </html>

@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.controller.session.SessionData;
 import com.example.demo.controller.validation.CredentialsValidator;
 import com.example.demo.controller.validation.TaskValidator;
+import com.example.demo.model.Comment;
 import com.example.demo.model.Credentials;
 import com.example.demo.model.Project;
 import com.example.demo.model.Tag;
 import com.example.demo.model.Task;
 import com.example.demo.model.User;
+import com.example.demo.services.CommentService;
 import com.example.demo.services.CredentialsService;
 import com.example.demo.services.ProjectService;
 import com.example.demo.services.TaskService;
@@ -45,21 +47,28 @@ public class TaskController {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	CredentialsService credentialsService;
-	
+
 	@Autowired
 	CredentialsValidator credentialsValidator;
 
+	@Autowired
+	CommentService commentService;
+
 	//ritorna la pagina del Task
 	@RequestMapping(value = { "/projects/{projectId}/tasks/{taskId}" }, method = RequestMethod.GET)
-	public String task(Model model, @PathVariable Long taskId) {
+	public String task(Model model, @PathVariable Long taskId, @PathVariable Long projectId) {
 		Task task = this.taskService.getTask(taskId);
+		Project project = this.projectService.getProject(projectId);
 		model.addAttribute("taskForm", task);
+		model.addAttribute("projectForm", project);
+		//per aggiungere un commento
+		model.addAttribute("commentForm", new Comment());
 		return "task";
 	}
-	
+
 	//L'URL che cattura la richiesta è parametrico: indichiamo il campo parametrico con parentesi graffe
 	@RequestMapping(value = { "/projects/{projectId}/addTask" }, method = RequestMethod.GET)
 	public String addTask(Model model, @PathVariable Long projectId) { 	//annotiamo con @PathVariable l'oggetto parametrico che ha lo stesso nome dato nell'URL
@@ -109,7 +118,7 @@ public class TaskController {
 
 	@RequestMapping(value = { "/projects/{projectId}/tasks/update/{taskId}" }, method = RequestMethod.POST)
 	public String updateTask(@Valid @ModelAttribute("taskForm") Task taskForm, @PathVariable Long taskId, @PathVariable Long projectId,
-			@RequestParam("tagsId") List<Long> tagsId, BindingResult taskBindingResult, Model model) {
+			@RequestParam(value = "tagsId", required=false) List<Long> tagsId, @ModelAttribute("commentForm") Comment comment, BindingResult taskBindingResult, Model model) {
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
 		if(!project.getOwner().equals(loggedUser)) {
@@ -126,14 +135,17 @@ public class TaskController {
 			//ho catturato gli id dei tag nella form e li uso per prendere i tag dal project 
 			//(vedi @RequestParam tagsId che è il nome della checkbox che cattura i dati nella form)
 			//un @RequestParam può catturare diverse cose, tra cui i campi delle form
-			List<Tag> projectTags = project.getTags();
-			for(Long tagId : tagsId) {
-				for(Tag tag : projectTags) {
-					if(tagId == tag.getId()) {
-						task.getTags().add(tag);
+			if(tagsId!=null) {
+				List<Tag> projectTags = project.getTags();
+				for(Long tagId : tagsId) {
+					for(Tag tag : projectTags) {
+						if(tagId == tag.getId()) {
+							task.getTags().add(tag);
+						}
 					}
 				}
 			}
+			task.getComments().add(comment);
 			this.taskService.saveTask(task);
 			return "taskUpdateSuccessful";
 		}
@@ -176,6 +188,20 @@ public class TaskController {
 			}
 		}
 		return "assignTask";
+	}
+
+	@RequestMapping(value = { "/projects/{projectId}/tasks/addComment/{taskId}" }, method = RequestMethod.POST)
+	public String addComment(@ModelAttribute("commentForm") Comment comment, @PathVariable Long projectId, @PathVariable Long taskId, BindingResult tagBindingResult, Model model) {
+		User loggedUser = sessionData.getLoggedUser();
+		Project project = projectService.getProject(projectId);
+		Task task = taskService.getTask(taskId);
+		if(!(project.getMembers().contains(loggedUser)) && !(project.getOwner().equals(loggedUser))) {
+			return "redirect:/projects/" + projectId + "/tasks";
+		}
+		this.commentService.saveComment(comment);
+		task.getComments().add(comment);
+		this.taskService.saveTask(task);
+		return "redirect:/projects/" + projectId + "/tasks/" + taskId;				
 	}
 
 	@RequestMapping(value = { "projects/{projectId}/tasks/delete/{taskId}" }, method = RequestMethod.GET)
