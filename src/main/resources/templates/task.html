@@ -49,7 +49,20 @@
     </tr>
     </table>
 	<!-- <h4 th:text="'Stato: ' + ${taskForm.isCompleted()} ? 'Completato' : 'Da fare'"></h4> -->
-                            
+
+	<!-- se sei membro del progetto puoi aggiungere un commento al task -->
+
+	<div>
+		th:if="${(!projectForm.members.contains(loggedUser)) && !(projectForm.owner.equals(loggedUser))}">
+		<form id="commentForm"
+			th:action="@{'/projects/' + ${projectId} + '/tasks/addComment/' + ${taskId}}"
+			th:object="${commentForm}" method="POST">
+
+			<input name="comment" type="text" th:field="*{description}"
+				placeholder="inserisci un commento" size="40" maxlength="256" required/>
+			<button type="submit">aggiungi commento</button>
+
+    </form>                 
 	<h4 class="h2"th:text="Tags"></h4>
 	<table class="container2" align="center">
 		<tbody align="left">
@@ -57,7 +70,7 @@
 		<td><h1 class="h3">Nome:</h1></td>
 		<td><h1 th:text="${tag.name}"></h1>>
 		</tr>
-	</table>
+    </table>
 	</div>
 	<button class="button "th:onclick="location.href='/projects'">I miei progetti</button>
 	<button class="button "th:onclick="location.href='/home'">Home</button>
