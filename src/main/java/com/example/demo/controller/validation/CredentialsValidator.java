@@ -9,13 +9,13 @@ import org.springframework.validation.Validator;
 
 import com.example.demo.model.Credentials;
 import com.example.demo.model.User;
-import com.example.demo.services.CredentialService;
+import com.example.demo.services.CredentialsService;
 
 @Component
 public class CredentialsValidator implements Validator {
 
 	@Autowired
-	CredentialService credentialsService;
+	CredentialsService credentialsService;
 
 	final Integer MAX_USERNAME_LENGTH=20;
 	final Integer MIN_USERNAME_LENGTH=4;

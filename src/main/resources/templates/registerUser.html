@@ -3,42 +3,270 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskManager</title>
+    <style>
+body {
+    //background: url("sfondo11.jpg") no-repeat fixed center;
+
+}
+.city{width:100%;}
+.divmenu {
+    border-radius:20%;
+    width: 35px;
+    height: 5px;
+    background-color: #209b60;
+    margin: 6px 0;
+}
+
+.dropbtn {background-image: url("menu.png");
+ display: inline-block;cursor: pointer;
+ margin-top:2%;
+ margin-left:2%;
+ border-radius:20%;
+ height:35px;
+ width:39px;
+
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.col-1{
+      position: relative;
+      display: inline-block;
+      width: 6.35%;
+      float: left;
+      border-left: 1px solid #209b60;
+      border-right: 1px solid #209b60;
+      height:90%;
+     }
+     .col-1-content a {
+       display: none;
+       position: absolute;
+}
+
+
+
+
+
+     .col-3{
+           width: 6.40%;
+           float: left;
+
+           }
+
+     .img1{
+           border-radius: 50% ;
+
+         float: left;
+         margin-left:12.5%;
+           box-shadow: 2px 2px 6px #888888;
+         height:100%;
+     }
+     .logo{
+
+
+
+
+              height:100%;
+     }
+     .show {display:block;}
+     .button1{                  background-color:WHITE;
+                                border: none;
+                      width:100%;
+                      padding: 10px 10px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 20px;
+                      cursor: pointer;
+                       -webkit-transition: all 1s ease;
+                       font-family:Courier New;
+                          position: relative;"
+
+              }
+              .button{          background-color:WHITE;
+                                border: none;
+                      			width:auto;
+                      			border-radius:5%;
+                                height:50px;
+                      padding: 10px 10px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 20px;
+                      cursor: pointer;
+                       -webkit-transition: all 1s ease;
+                      font-family:Courier New;
+                                font-weight: bold;
+                          position: relative;
+                                border-left: 1px solid #209b60;
+                                border-right: 1px solid #209b60;
+                               color:#209b60;
+
+
+              }
+.h2{
+      font-size: 40px;
+      font-family:Courier New;
+      color:#209b60;
+
+
+   }
+   .h3{
+      font-size: 20px;
+      font-family:Courier New;
+      color:#209b60;
+
+
+   }
+   .header{
+            background-color:#209b60;
+            border-left: 1px solid #209b60;
+            border-right: 1px solid #209b60;
+            height:10%;
+
+
+          }
+          .footer{
+                        background-color:#209b60;
+                        border-left: 1px solid #209b60;
+                        border-right: 1px solid #209b60;
+                        height:20%;
+
+          }
+input {
+	padding:2%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #ffffff;
+}
+.col-2{
+                width: 93%;
+                float: right;
+                height:80%;
+
+
+              }
+.container
+           {
+            height:auto;
+
+             
+             border-left: 1px solid #209b60;
+             border-right: 1px solid #209b60;
+           }
+           .container2
+                     {
+				  padding:2%;
+				  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                  border-radius:15px 15px 15px 15px;    
+                  width:auto;
+                  height:auto;
+
+
+              }
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+button:hover{ background-color: #209b60;
+              color: white;}
+
+li button:hover {
+    background-color: #209b60;
+    color: white;
+}
+.bot
+     {
+       font-size: 15px;
+     }
+w3-red,.w3-hover-red:hover{color:#fff!important;background-color:#f44336!important}
+h5.ciao{
+                     width:70%;
+                padding: 15px 15px;
+                padding-top:10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 12px;
+                font-family:Courier New;
+                 -webkit-transition: all 1s ease;
+              position: relative;margin-top:-7px;
+  }
+  table {
+            
+            
+        }
+
+        th, td {
+            padding: 8px;
+        }
+
+        tr:nth-child(even){background-color: #ffff;width:100%;}
+
+        th {
+            background-color: #008800;
+            color: white;
+    }
+</style>
 </head>
 
 <body>
-<h1>Register new User</h1>
+<div class="container">
+<h2 class="h2" align="center" >Registrazione</h2>
+</div>
 <form id = "registerUserForm"
       th:action="@{/users/register}"
-      method="POST">
+      method="POST"
+      align="center"
+      style="margin-top:2%;"
+      >
 
-    <table>
+    <table align="center" class="container2" >
         <tr>
-            <td><label for="userNameInput">Username</label>
-            <td><input id=userNameInput type="text" th:field="${credentialsForm.userName}" placeholder="USERNAME" required/></td>
+            <td><label class="h3" for="userNameInput">Username</label>
+            <td><input class="input" id=userNameInput type="text" th:field="${credentialsForm.userName}" placeholder="USERNAME" required/></td>
             <td th:if="${#fields.hasErrors('credentialsForm.userName')}" th:errors="${credentialsForm.userName}" th:style="'color:red'"></td>
         </tr>
         <tr>
-            <td><label for="passwordInput">Password</label></td>
-            <td><input id="passwordInput" type="password" th:field="${credentialsForm.password}" placeholder="PASSWORD"/></td>
+            <td><label class="h3" for="passwordInput">Password</label></td>
+            <td><input class="input" id="passwordInput" type="password" th:field="${credentialsForm.password}" placeholder="PASSWORD"/></td>
             <td th:if="${#fields.hasErrors('credentialsForm.password')}" th:errors="${credentialsForm.password}" th:style="'color:red'"></td>
         </tr>
         <tr>
-            <td><label for="firstNameInput">First Name</label></td>
-            <td><input id="firstNameInput" type="text" th:field="${userForm.firstName}" placeholder="FIRST NAME"/></td>
+            <td><label class="h3" for="firstNameInput">First Name</label></td>
+            <td><input class="input" id="firstNameInput" type="text" th:field="${userForm.firstName}" placeholder="FIRST NAME"/></td>
             <td th:if="${#fields.hasErrors('userForm.firstName')}" th:errors="${userForm.firstName}" th:style="'color:red'"></td>
         </tr>
         <tr>
-            <td><label for="lastNameInput">Last Name</label></td>
-            <td><input id="lastNameInput" type="text" th:field="${userForm.lastName}" placeholder="LAST NAME"/></td>
+            <td><label class="h3" for="lastNameInput">Last Name</label></td>
+            <td><input class="input" id="lastNameInput" type="text" th:field="${userForm.lastName}" placeholder="LAST NAME"/></td>
             <td th:if="${#fields.hasErrors('userForm.lastName')}" th:errors="${userForm.lastName}" th:style="'color:red'"></td>
         </tr>
-        <tr>
-            <td>
-                <button type="submit">Register</button>
-            </td>
-        </tr>
+       
+                
+        
     </table>
+    <button type="submit" class="button" align="center" style="margin-top:2%;">Register</button>
 </form>
 </body>
 </html>

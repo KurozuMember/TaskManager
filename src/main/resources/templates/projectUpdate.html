@@ -4,31 +4,34 @@
       xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>TaskManager</title>
+    <link rel="stylesheet"  href="/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
-<h1>Update Project Information</h1>
+<body align="center">
+<div class="container">
+<h1 class="h2" align="center">Update Project Information</h1>
+</div>
 <form id = "updateProjectForm"
       th:action="@{'/projects/update/' + ${projectForm.Id}}"
       method="POST">
 
-    <table>
+    <table class="container2" align="center">
         <tr>
-            <td><label for="nameInput">Name</label>
+            <td><label class="h3" for="nameInput">Name</label>
             <td><input id=nameInput type="text" th:field="${projectForm.name}" placeholder="NAME" required/></td>
             <td th:if="${#fields.hasErrors('projectForm.name')}" th:errors="${projectForm.name}" th:style="'color:red'"></td>
         </tr>
         <tr>
-            <td><label for="descriptionInput">Description</label></td>
+            <td><label class="h3" for="descriptionInput">Description</label></td>
             <td><input id="descriptionInput" type="text" th:field="${projectForm.description}" placeholder="DESCRIPTION"/></td>
             <td th:if="${#fields.hasErrors('projectForm.description')}" th:errors="${projectForm.description}" th:style="'color:red'"></td>
         </tr>
-        <tr>
-            <td>
-                <button type="submit">Conferma modifiche</button>
-            </td>
-        </tr>
+        
+                
+          
     </table>
+    <button class="button" type="submit" align="center" style="margin-top:2%;border-radius=2%">Conferma modifiche</button>
 </form>
 
 </body>

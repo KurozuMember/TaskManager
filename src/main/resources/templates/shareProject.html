@@ -4,27 +4,31 @@
       xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>TaskManager</title>
+    <link rel="stylesheet"  href="/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
-<h1>Inserisci lo username dell'utente con cui vuoi condividere il progetto:</h1>
-
+<body align="center">
+<div class="container">
+<h1 class="h2" align="center">Condividi Con</h1>
+</div>
 <form id = "shareProjectForm"
       th:action="@{'/projects/share/' + ${projectForm.Id}}"
       method="POST">
 
-    <table>
+    <table class="container2" align="center">
         <tr>
-            <td><label for="userNameInput">Username</label>
+            <td><label class="h3" for="userNameInput">Username:</label>
             <td><input id=userNameInput type="text" th:field="${credentialsForm.userName}" placeholder="USERNAME" required/></td>
             <td th:if="${#fields.hasErrors('credentialsForm.userName')}" th:errors="${credentialsForm.userName}" th:style="'color:red'"></td>
         </tr>
-        <tr>
-            <td>
-                <button type="submit">Conferma</button>
-            </td>
-        </tr>
+        
+            
+                
+           
+        
     </table>
+    <button class="button" type="submit" align="center" style="margin-top:2%">Conferma</button>
 </form>
 
 </body>

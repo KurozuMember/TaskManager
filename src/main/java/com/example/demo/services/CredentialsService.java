@@ -13,7 +13,7 @@ import com.example.demo.model.Credentials;
 import com.example.demo.repository.CredentialRepository;
 
 @Service
-public class CredentialService {
+public class CredentialsService {
 	@Autowired
 	protected CredentialRepository credentialRepository;
 	/*NOTA:mentre il framework gestisce a livello di login l'encoding della password inserita per confrontarla con quella nel database*/
@@ -34,6 +34,10 @@ public class CredentialService {
 	public Credentials getCredential(long id) {
 		Optional<Credentials> result=this.credentialRepository.findById(id);
 		return result.orElse(null);
+	}
+	@Transactional
+	public void deleteUser(Credentials credentials) {
+		 this.credentialRepository.delete(credentials);
 	}
 	@Transactional
 	public Credentials getCredential(String username) {

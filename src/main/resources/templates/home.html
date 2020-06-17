@@ -3,16 +3,20 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
 <head>
+<link rel="stylesheet"  href="/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <meta charset="UTF-8">
     <title>TaskManager</title>
 </head>
-<body>
-<h1 th:text="'Welcome, ' + ${user.firstName} + '!'"></h1>
-<h4><a href="/projects">My Projects</a></h4>
-<h4><a href="/visibleProjects">Shared with me</a></h4>
-<h4><a href="/projects/add">Create new Project</a></h4>
-<h4><a href="/users/me">Profile</a></h4>
-<h4><a href="/logout">Logout</a></h4>
-
+<body align="center">
+<h1 class="h2" th:text="'Welcome, ' + ${user.firstName} + '!'"></h1>
+<table align="center">
+<tr><td><Button class="button" onclick="location.href='/projects'" style="width:80%;height:auto;border-radius:2%;">My Projects</Button><td></tr>
+<tr><td><Button class="button" onclick="location.href='/visibleProjects'" style="width:80%;height:auto;border-radius:2%;">Shared with me</Button><td></tr>
+<tr><td><Button class="button" onclick="location.href='/projects/add'" style="width:80%;height:auto;border-radius:2%;">Create new Project</Button><td></tr>
+<tr><td><Button class="button" onclick="location.href='/users/me'" style="width:80%;height:auto;border-radius:2%;">Profile</Button><td></tr>
+<tr><td><Button class="button" onclick="location.href='/logout'" style="width:80%;height:auto;border-radius:2%;">Logout</Button><td></tr>
+</table>
 </body>
 </html>
