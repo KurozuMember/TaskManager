@@ -19,6 +19,12 @@ public class Comment {
 	
 	@Column(nullable=false, length=256)
 	String description;
+	public User getPublisher() {
+		return this.publisher;
+	}
+	public void setPubisher(User publisher) {
+		this.publisher=publisher;
+	}
 
 	public String getDescription() {
 		return description;
