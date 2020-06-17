@@ -27,7 +27,8 @@
 	</ul>
 	<!-- se sei membro del progetto puoi aggiungere un commento al task -->
 
-	<div
+	<div>
+	<!-- controllo -->
 		th:if="${(!projectForm.members.contains(loggedUser)) && !(projectForm.owner.equals(loggedUser))}">
 		<form id="commentForm"
 			th:action="@{'/projects/' + ${projectId} + '/tasks/addComment/' + ${taskId}}"
