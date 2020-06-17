@@ -7,32 +7,45 @@
 
 <body>
 	<h1 th:text="${taskForm.name}"></h1>
-	<h4 th:text="${taskForm.description}" style="color:gray"></h4>
-	<h4 th:if="${taskForm.assignee != null}" th:text="'Assegnato a: ' + ${taskForm.assignee.firstName}"></h4>
-    <h4 th:unless="${taskForm.assignee != null}">Assegnato a: nessuno</h4>
+	<h4 th:text="${taskForm.description}" style="color: gray"></h4>
+	<h4 th:if="${taskForm.assignee != null}"
+		th:text="'Assegnato a: ' + ${taskForm.assignee.firstName}"></h4>
+	<h4 th:unless="${taskForm.assignee != null}">Assegnato a: nessuno</h4>
 	<!-- testo con condizione: se il task è completato mostra 'Completed', altrimenti 'To do'.
 		 la sintassi è (if) : (then) :? (valore di default, ovvero 'To do') -->
 	<h4 th:if="${taskForm.isCompleted()}">Stato: completato</h4>
-    <h4 th:unless="${taskForm.isCompleted()}">Stato: da fare</h4>
+	<h4 th:unless="${taskForm.isCompleted()}">Stato: da fare</h4>
 	<!-- <h4 th:text="'Stato: ' + ${taskForm.isCompleted()} ? 'Completato' : 'Da fare'"></h4> -->
-                            
+
 	<h4 th:text="Tags"></h4>
 	<ul>
 		<li th:each="tag : ${taskForm.getTags()}" th:text="${tag.name}">
-	</ul> 
-	<!-- <h4 th:text="'Stato: ' + (${taskForm.isCompleted()} ? 'Completed' ?: 'To do'))"></h4> -->
-	<!-- se sei membro del progetto puoi aggiungere un commento al task 
-	<div th:if="${project.members.contains(loggedUser)}">
-		<p><a th:href="'/tasks/' + ${task.id} + 'addComment/' ">Aggiungi commento</a></p>
-	</div> -->
-	<!-- solo se sei owner del progetto puoi modifcare, eliminare o assegnare il task -->
-	<!-- <div th:if="${project.owner.equals(loggedUser)}">
-		<p><a th:href="'/tasks/update/' + ${task.id}">Modifica Task</a></p>
-		<p><a th:href="'/tasks/delete/' + ${task.id}">Elimina Task</a></p>
-		<p><a th:href="'/tasks/assign/' + ${task.id}">Assegna Task</a></p>
-	</div> -->
-	<h2><a th:href="@{/projects}">I miei progetti</a></h2>
-	<h2>Torna alla <a th:href="@{/home}">Home</a></h2>
-	
+	</ul>
+	<ul>
+		<li th:each="comment : ${taskForm.getComments()}"
+			th:text="${comment.description}">
+	</ul>
+	<!-- se sei membro del progetto puoi aggiungere un commento al task -->
+
+	<div
+		th:if="${(!projectForm.members.contains(loggedUser)) && !(projectForm.owner.equals(loggedUser))}">
+		<form id="commentForm"
+			th:action="@{'/projects/' + ${projectId} + '/tasks/addComment/' + ${taskId}}"
+			th:object="${commentForm}" method="POST">
+
+			<input name="comment" type="text" th:field="*{description}"
+				placeholder="inserisci un commento" size="40" maxlength="256" required/>
+			<button type="submit">aggiungi commento</button>
+
+		</form>
+	</div>
+
+	<h2>
+		<a th:href="@{/projects}">I miei progetti</a>
+	</h2>
+	<h2>
+		Torna alla <a th:href="@{/home}">Home</a>
+	</h2>
+
 </body>
 </html>
