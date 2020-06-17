@@ -3,7 +3,7 @@
 	xmlns:th="https://www.thymeleaf.org">
 <head>
 <title>TaskManager</title>
-<link rel="stylesheet"  href="/css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -76,7 +76,6 @@
 	<thead>
 				
         <tr th:each="comment: ${taskForm.comments}">
-
             <td>
             <p><h1 class="h3" th:text="${comment.publisher.firstName}"></h1></p>
             <p><h1 class="h3" th:text="${comment.publisher.lastName}"></h1></p>
@@ -90,7 +89,6 @@
 		<form id="commentForm"
 			th:action="@{'/projects/' + ${projectId} + '/tasks/addComment/' + ${taskId}}"
 			th:object="${commentForm}" method="POST">
-
 			<input class="container2" name="comment" type="text" th:field="*{description}"
 				placeholder="inserisci un commento" style="border:none;" size="40" maxlength="256" required/>
 			<p><button class="button" type="submit">aggiungi commento</button></p>
@@ -98,8 +96,5 @@
     </form>                 
 	
 	</div>
-	
-	
-	
 </body>
 </html>
