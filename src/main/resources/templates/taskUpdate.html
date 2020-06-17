@@ -33,7 +33,7 @@
  		
 			<tr th:each="tag : ${projectForm.getTags()}">
 				<td>
-				<label for="tagsInput" th:text="${tag.name}" th:style="'color:${tag.color}'"></label></td>
+				<label for="tagsInput" th:text="${tag.name}" th:style="'color :' + ${tag.color}"></label></td>
 				<td>
 				<input id="tagsInput" type="checkbox" th:name="tagsId" th:value="${tag.id}" /></td>
 			</tr>
@@ -44,14 +44,6 @@
 					th:field="*{completed}" name="completato" /></td>
 			</tr>
 		</table>
-
-		<!-- <label>Seleziona i tag</label>
-		<div>
-			<select name="tags" multiple="multiple">
-				<option th:each="tag : ${projectForm.getTags()}" th:value="${tag}">un
-					tag</option>
-			</select>
-		</div> -->
 
 		<button type="submit">Conferma modifiche</button>
 	</form>
