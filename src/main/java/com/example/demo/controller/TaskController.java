@@ -123,9 +123,10 @@ public class TaskController {
 			task.setName(taskForm.getName());
 			task.setTags(taskForm.getTags());
 			task.setCompleted(taskForm.getCompleted());
+			//ho catturato gli id dei tag nella form e li uso per prendere i tag dal project 
+			//(vedi @RequestParam tagsId che è il nome della checkbox che cattura i dati nella form)
+			//un @RequestParam può catturare diverse cose, tra cui i campi delle form
 			List<Tag> projectTags = project.getTags();
-			System.out.println("TAG PROGETTO " + projectTags);
-			System.out.println("TAGS ID " + tagsId);
 			for(Long tagId : tagsId) {
 				for(Tag tag : projectTags) {
 					if(tagId == tag.getId()) {
