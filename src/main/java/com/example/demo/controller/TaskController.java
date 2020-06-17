@@ -199,6 +199,7 @@ public class TaskController {
 		if(!(project.getMembers().contains(loggedUser)) && !(project.getOwner().equals(loggedUser))) {
 			return "redirect:/projects/" + projectId + "/tasks";
 		}
+		comment.setPubisher(loggedUser);
 		this.commentService.saveComment(comment);
 		task.getComments().add(comment);
 		this.taskService.saveTask(task);

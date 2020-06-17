@@ -2,6 +2,48 @@ body {
     //background: url("sfondo11.jpg") no-repeat fixed center;
 
 }
+
+
+.nav{
+      font-family: Montserrat, sans-serif;
+      background-color: #209b60;
+      border: 0;
+      font-size: 11px !important;
+      letter-spacing: 4px;
+      opacity: 0.9;
+      position: fixed;
+      			 top: 0;
+	  		     right: 0;
+	  		     left: 0;
+    z-index: 1030;
+    height:50px;
+    }
+    .bgroup{
+         margin-left:54.3%;
+         height:100%;
+        // margin-top: -3.2%;
+}
+
+
+
+
+.button2{border:none;
+        margin-left: -1.25%;
+        padding: 10px 20px;
+        height:100%;
+	    background-color: #209b60;
+	    color: #fff;
+	    border-radius: 0;
+        transition: .2s;
+       }
+.button2:hover, .button:focus {
+      border: 0px solid #333;
+      background-color: #fff;
+              color: #209b60;
+  }
+
+
+
 .city{width:100%;}
 .divmenu {
     border-radius:20%;
@@ -159,7 +201,7 @@ ul {
            {
             height:auto;
 
-             
+             margin-top: 5%;
              border-left: 1px solid #209b60;
              border-right: 1px solid #209b60;
            }

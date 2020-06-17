@@ -4,36 +4,50 @@
       xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>TaskManager</title>
+    	<link rel="stylesheet"  href="/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 </head>
 
 <body>
-<h1>Your Profile</h1>
-    <table>
+<div class="nav">
+<div class="bgroup" align="right">
+  <a href="/users/update"><button class="button2">Modifica Profilo</button></a>
+	<button class="button2" th:onclick="location.href='/home'">Home</button>
+  </div>
+</div>
+
+<div class="container" >
+<h1 class="h2" align="center" th:text="${credentials.userName} "> </h1>
+</div>    
+   <table align="center">
+<tr>
+<td>
+    <table class="container2" >
         <tr>
-            <td>Username</td>
+            <td><h1 class="h3">Username</h1></td>
             <td th:text="${credentials.userName}">...</td>
         </tr>
         <tr>
-            <td>First Name</td>
+            <td><h1 class="h3">First Name</h1></td>
             <td th:text="${user.firstName}">...</td>
         </tr>
         <tr>
-            <td>Last Name</td>
+            <td><h1 class="h3">Last Name</h1></td>
             <td th:text="${user.lastName}">...</td>
         </tr>
         <tr>
-            <td>Role</td>
+            <td><h1 class="h3">Role</h1></td>
             <td th:text="${credentials.role}">...</td>
         </tr>
         <tr>
-            <td>Registered at: </td>
+            <td><h1 class="h3">Registered at: </h1></td>
             <td th:text="${user.creationTimestamp}">...</td>
         </tr>
         <tr>
-            <td>Last Update at:</td>
+            <td><h1 class="h3">Last Update at:</h1></td>
             <td th:text="${user.lastUpdateTimestamp}">...</td>
         </tr>
     </table>
-    <p> <a href="/users/update">Modifica Profilo</a></p>
 </body>
 </html>
