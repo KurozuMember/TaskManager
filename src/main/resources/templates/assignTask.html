@@ -4,25 +4,28 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>TaskManager</title>
+<link rel="stylesheet"  href="/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-	<h1>Inserisci il membro a cui assegnare il task</h1>
+<body align="center">
+	<h1 align ="center" class="h2">Inserisci membro a cui assegnare task</h1>
 	<form id = "assignTaskForm"
       th:action="@{'/projects/' + ${projectId} + '/tasks/assign/' + ${taskId}}"
       method="POST">
 
-    <table>
+    <table class="container2" align="center">
+    <tbody align="left">
         <tr>
-            <td><label for="userNameInput">Username</label>
+            <td><label class="h3" for="userNameInput">Username</label>
             <td><input id=userNameInput type="text" th:field="${credentialsForm.userName}" placeholder="USERNAME" required/></td>
             <td th:if="${#fields.hasErrors('credentialsForm.userName')}" th:errors="${credentialsForm.userName}" th:style="'color:red'"></td>
         </tr>
-        <tr>
-            <td>
-                <button type="submit">Conferma</button>
-            </td>
-        </tr>
+        
+                
+            
+        
     </table>
+    <button class="button" type="submit" style="margin-top:2%">Assegna</button>
 </form>
 </body>
 </html>

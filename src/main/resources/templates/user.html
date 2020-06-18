@@ -1,74 +1,77 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="https://www.thymeleaf.org">
-      
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+
 <head>
-    <title>TaskManager</title>
-	<link rel="stylesheet"  href="/css/style.css">
+<title>TaskManager</title>
+<link rel="stylesheet" href="/css/style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 </head>
 
 <body align="center">
-<div align="left">
-<table align="center">
-<tr>
-<td>
-<div class="container">
-<h1 class="h2" align="center" th:text="${credentials.userName} "> </h1>
-</div>    
-    <table class="container2" >
-        <tr>
-            <td><h1 class="h3">Username</h1></td>
-            <td th:text="${credentials.userName}">...</td>
-        </tr>
-        <tr>
-            <td><h1 class="h3">First Name</h1></td>
-            <td th:text="${user.firstName}">...</td>
-        </tr>
-        <tr>
-            <td><h1 class="h3">Last Name</h1></td>
-            <td th:text="${user.lastName}">...</td>
-        </tr>
-        <tr>
-            <td><h1 class="h3">Role</h1></td>
-            <td th:text="${credentials.role}">...</td>
-        </tr>
-        <tr>
-            <td><h1 class="h3">Registered at: </h1></td>
-            <td th:text="${user.creationTimestamp}">...</td>
-        </tr>
-        <tr>
-            <td><h1 class="h3">Last Update at:</h1></td>
-            <td th:text="${user.lastUpdateTimestamp}">...</td>
-        </tr>
-    </table>
-    </td>
-    <td>
-    <div class="container">
-    	<h1 class="h2" align="center"> Projects</h1>
-    	</div>
-    	<h1 class="h3" th:if="${projects.size()<=0}">Nessuno</h3>
-    	<div th:if="${projects.size()>0}">
-		<table class="container2" align ="center">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="project : ${projects}">
-					<td th:text="${project.name}">...</td>
-					<td th:text=${project.description}>...</td>
-					<td><a th:href="'/admin/projects/delete/' + ${credentials.userName}+ '/' + ${project.id}" onclick="return confirm('ATTENZIONE! Vuoi davvero eliminare questo progetto?');">Elimina Progetto</a></td>
-				</tr>
-			</tbody>
+	<div align="left">
+		<table align="center">
+			<tr>
+				<td>
+					<div class="container">
+						<h1 class="h2" align="center" th:text="${credentials.userName} ">
+						</h1>
+					</div>
+					<table class="container2">
+						<tr>
+							<td><h1 class="h3">Username</h1></td>
+							<td th:text="${credentials.userName}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">First Name</h1></td>
+							<td th:text="${user.firstName}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">Last Name</h1></td>
+							<td th:text="${user.lastName}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">Role</h1></td>
+							<td th:text="${credentials.role}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">Registered at:</h1></td>
+							<td th:text="${user.creationTimestamp}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">Last Update at:</h1></td>
+							<td th:text="${user.lastUpdateTimestamp}">...</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<div class="container">
+						<h1 class="h2" align="center">Projects</h1>
+					</div>
+					<h1 class="h3" th:if="${projects.size()<=0}">Nessuno</h1>
+					<div th:if="${projects.size()>0}">
+						<table class="container2" align="center">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="project : ${projects}">
+									<td th:text="${project.name}">...</td>
+									<td th:text=${project.description}>...</td>
+									<td><a
+										th:href="'/admin/projects/delete/' + ${credentials.userName}+ '/' + ${project.id}"
+										onclick="return confirm('ATTENZIONE! Vuoi davvero eliminare questo progetto?');">Elimina
+											Progetto</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</td>
+			</tr>
 		</table>
-	</div>
-	</td>
-	</tr>
-	</table>
 </body>
 </html>

@@ -183,15 +183,20 @@ public class UserController {
 			// this also stores the User, thanks to Cascade.ALL policy
 			/*NOTA: quì dobbiamo assegnare allo user creato dalla form l'id dello user loggato per poter fare 
 			 *      l'update sul db.*/
-			user.setId(this.sessionData.getLoggedUser().getId());
+			User usr=cr.getUser();
+			usr.setFirstName(user.getFirstName());
+			usr.setLastName(user.getLastName());
+			
+			
 			/*Salviamo credentials(usando nuovo metodo e passando cr che sono le credenziali corrette)
 			 * NOTA: crazie a CASCADE.ALL salva anche lo user.*/
-			cr.setUser(user);
+			cr.setUser(usr);
 			this.credentialsService.updateCredential(cr);
+			
 			/*Dopo aver salvato sostituiamo il campo password di cr con [PROTECTED]
 			 * e aggiorniamo i dati di sessione.*/
 			cr.setPassword("[PROTECTED]");
-			this.sessionData.setLoggedUser(user);
+			this.sessionData.setLoggedUser(usr);
 			this.sessionData.setCredentials(cr);
 
 			
