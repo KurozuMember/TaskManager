@@ -118,7 +118,6 @@ public class TaskController {
 
 	@RequestMapping(value = { "/projects/{projectId}/tasks/update/{taskId}" }, method = RequestMethod.POST)
 	public String updateTask(@Valid @ModelAttribute("taskForm") Task taskForm, @PathVariable Long taskId, @PathVariable Long projectId,
-
 			@RequestParam(value = "tagsId", required=false) List<Long> tagsId, BindingResult taskBindingResult, Model model) {
 
 		User loggedUser = sessionData.getLoggedUser();
@@ -150,6 +149,8 @@ public class TaskController {
 			this.taskService.saveTask(task);
 			return "taskUpdateSuccessful";
 		}
+		model.addAttribute("taskForm", taskForm);
+		model.addAttribute("projectForm", project);
 		return "taskUpdate";
 	}
 

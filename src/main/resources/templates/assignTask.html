@@ -4,28 +4,34 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>TaskManager</title>
-<link rel="stylesheet"  href="/css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body align="center">
-	<h1 align ="center" class="h2">Inserisci membro a cui assegnare task</h1>
-	<form id = "assignTaskForm"
-      th:action="@{'/projects/' + ${projectId} + '/tasks/assign/' + ${taskId}}"
-      method="POST">
 
-    <table class="container2" align="center">
-    <tbody align="left">
-        <tr>
-            <td><label class="h3" for="userNameInput">Username</label>
-            <td><input id=userNameInput type="text" th:field="${credentialsForm.userName}" placeholder="USERNAME" required/></td>
-            <td th:if="${#fields.hasErrors('credentialsForm.userName')}" th:errors="${credentialsForm.userName}" th:style="'color:red'"></td>
-        </tr>
-        
-                
-            
-        
-    </table>
-    <button class="button" type="submit" style="margin-top:2%">Assegna</button>
-</form>
+<body align="center">
+	<div class="nav">
+		<div class="bgroup" align="right">
+			<button class="button2" th:onclick="location.href='/projects'">Progetti</button>
+		</div>
+	</div>
+	<h1 align="center" class="h2" style="margin-top:5%">Inserisci membro a cui assegnare
+		task</h1>
+	<form id="assignTaskForm"
+		th:action="@{'/projects/' + ${projectId} + '/tasks/assign/' + ${taskId}}"
+		method="POST">
+
+		<table class="container2" align="center">
+			<tbody align="left">
+				<tr>
+					<td><label class="h3" for="userNameInput">Username</label>
+					<td><input id=userNameInput type="text"
+						th:field="${credentialsForm.userName}" placeholder="USERNAME"
+						required /></td>
+					<td th:if="${#fields.hasErrors('credentialsForm.userName')}"
+						th:errors="${credentialsForm.userName}" th:style="'color:red'"></td>
+				</tr>
+		</table>
+		<button class="button" type="submit" style="margin-top: 2%">Assegna</button>
+	</form>
 </body>
 </html>

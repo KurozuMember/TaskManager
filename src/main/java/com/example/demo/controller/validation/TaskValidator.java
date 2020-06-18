@@ -9,9 +9,9 @@ import com.example.demo.model.Task;
 @Component
 public class TaskValidator implements Validator {
 
-	final Integer MAX_NAME_LENGTH = 100;
+	final Integer MAX_NAME_LENGTH = 32;
 	final Integer MIN_NAME_LENGTH = 2;
-	final Integer MAX_DESCRIPTION_LENGTH = 1000;
+	final Integer MAX_DESCRIPTION_LENGTH = 256;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {

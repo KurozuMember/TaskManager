@@ -8,6 +8,11 @@
 </head>
 
 <body align="center">
+	<div class="nav">
+		<div class="bgroup" align="right">
+			<button class="button2" th:onclick="location.href='/home'">Home</button>
+		</div>
+	</div>
 	<div class="container">
 		<h1 class="h2" align="center">Condividi Con</h1>
 	</div>
@@ -23,11 +28,6 @@
 				<td th:if="${#fields.hasErrors('credentialsForm.userName')}"
 					th:errors="${credentialsForm.userName}" th:style="'color:red'"></td>
 			</tr>
-
-
-
-
-
 		</table>
 		<button class="button" type="submit" align="center"
 			style="margin-top: 2%">Conferma</button>

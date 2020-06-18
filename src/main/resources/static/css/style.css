@@ -6,6 +6,7 @@ body { //
 	font-family: Montserrat, sans-serif;
 	background-color: #209b60;
 	border: 0;
+	margin-bottom: 2%;
 	font-size: 11px !important;
 	letter-spacing: 4px;
 	opacity: 0.9;
@@ -18,7 +19,7 @@ body { //
 }
 
 .bgroup {
-	margin-left: 54.3%;
+	margin-left: 55%;
 	height: 100%;
 	//margin-top: -3.2%;
 }
@@ -155,7 +156,7 @@ body { //
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
-	font-size: 20px;
+	font-size: 150%;
 	cursor: pointer;
 	-webkit-transition: all 1s ease;
 	font-family: Courier New;

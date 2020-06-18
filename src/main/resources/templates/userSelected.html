@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<title>TaskManager</title>
+<link rel="stylesheet" href="/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+</head>
+
+<body align="center">
+	<div class="nav">
+		<div class="bgroup" align="right">
+			<button class="button2" th:onclick="location.href='/admin'">Home</button>
+		</div>
+	</div>
+	<div align="left">
+		<table align="center">
+			<tr>
+				<td>
+					<div class="container">
+						<h1 class="h2" align="center" th:text="${credentials.userName} ">
+						</h1>
+					</div>
+					<table class="container2">
+						<tr>
+							<td><h1 class="h3">Username</h1></td>
+							<td th:text="${credentials.userName}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">Nome</h1></td>
+							<td th:text="${user.firstName}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">Cognome</h1></td>
+							<td th:text="${user.lastName}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">Ruolo</h1></td>
+							<td th:text="${credentials.role}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">Data Registrazione:</h1></td>
+							<td th:text="${user.creationTimestamp}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">Ultimo Aggiornamento Profilo:</h1></td>
+							<td th:text="${user.lastUpdateTimestamp}">...</td>
+						</tr>
+						<tr>
+							<td><h1 class="h3">Ultimo Aggiornamento Credenziali:</h1></td>
+							<td th:text="${credentials.lastUpdateTimestamp}">...</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<div class="container">
+						<h1 class="h2" align="center">Progetti</h1>
+					</div>
+					<h1 class="h3" th:if="${projects.size()<=0}">Nessuno</h1>
+					<div th:if="${projects.size()>0}">
+						<table class="container2" align="center">
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Descrizione</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="project : ${projects}">
+									<td th:text="${project.name}">...</td>
+									<td th:text=${project.description}>...</td>
+									<td><a
+										th:href="'/admin/projects/delete/' + ${credentials.userName}+ '/' + ${project.id}"
+										onclick="return confirm('ATTENZIONE! Vuoi davvero eliminare questo progetto?');">Elimina
+											Progetto</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+</body>
+</html>

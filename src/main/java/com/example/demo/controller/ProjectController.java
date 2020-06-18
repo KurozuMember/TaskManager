@@ -32,21 +32,21 @@ import com.example.demo.services.UserService;
 public class ProjectController {
 	@Autowired
 	SessionData sessionData;
-/*Services------------------------------------------------*/
+	/*Services------------------------------------------------*/
 	@Autowired
 	ProjectService projectService;
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	TagService tagService;
-	
+
 	@Autowired
 	CredentialsService credentialsService;
-	
-	
-/*Validator----------------------------------------*/
+
+
+	/*Validator----------------------------------------*/
 	@Autowired 
 	ProjectValidator projectValidator;
 	@Autowired 
@@ -172,30 +172,24 @@ public class ProjectController {
 		model.addAttribute("credentialsForm", credentialsForm);		
 		return "shareProject";
 	}
-	
+
 	/*INSERIMENTO TAG-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@RequestMapping(value = { "/projects/{projectId}/addTag" }, method = RequestMethod.POST)
-	public String addTag(@Valid @ModelAttribute("taskForm") Tag tag, @PathVariable Long projectId, BindingResult tagBindingResult, Model model) {
+	public String addTag(@Valid @ModelAttribute("tagForm") Tag tag, @PathVariable Long projectId, BindingResult tagBindingResult, Model model) {
 		User loggedUser = sessionData.getLoggedUser();
 		Project project = projectService.getProject(projectId);
 		if(!isProjectOwner(project, loggedUser)) {
 			return "redirect:/projects/";
 		}
-		tagValidator.validate(tag, tagBindingResult);
-		
-		if (!tagBindingResult.hasErrors()) {
-			tagService.saveTag(tag);
-			project.addTag(tag);
-			projectService.saveProject(project);
-			return "redirect:/projects/" + projectId;				
-		}
-		model.addAttribute("loggedUser", loggedUser);
-		return "project";
+		tagService.saveTag(tag);
+		project.addTag(tag);
+		projectService.saveProject(project);
+		return "redirect:/projects/" + projectId;				
 	}
-	
-	
-/*------------------------------------------------------------------------------------------------------------*/
-	
+
+
+	/*------------------------------------------------------------------------------------------------------------*/
+
 	/*METODI DI AUSILIO*/
 	private boolean isProjectOwner(Project project, User owner) {
 		return project.getOwner().equals(owner);

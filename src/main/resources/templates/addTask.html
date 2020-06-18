@@ -3,36 +3,44 @@
 	xmlns:th="https://www.thymeleaf.org">
 <head>
 <title>TaskManager</title>
-<link rel="stylesheet"  href="/css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-<div class="container">
-	<h1 class="h2" align="center">Create new Task</h1>
-</div>	
-	<form id="taskForm" th:action="@{'/projects/' + ${project.Id} + '/addTask'}" method="POST" align="center">
+	<div class="nav">
+		<div class="bgroup" align="right">
+			<button class="button2" th:onclick="location.href='/home'">Home</button>
+		</div>
+	</div>
+	<div class="container">
+		<h1 class="h2" align="center">Crea Nuovo Task</h1>
+	</div>
+	<form id="taskForm"
+		th:action="@{'/projects/' + ${projectId} + '/addTask'}" method="POST"
+		align="center">
 
 		<table align="center" class="container2">
 			<tr>
-				<td><label class="h3" for="taskNameInput">Task Name</label>
+				<td><label class="h3" for="taskNameInput">Nome</label>
 				<td><input id=taskNameInput type="text" placeholder="NAME"
 					required th:field="${taskForm.name}" />
 				<td th:if="${#fields.hasErrors('taskForm.name')}"
-					th:errors="${taskForm.name}" th:style="color:red"></td>
+					th:errors="${taskForm.name}" th:style="'color:red'"></td>
 			</tr>
 			<tr>
-				<td><label class="h3" for="taskDescriptionInput">Description</label></td>
+				<td><label class="h3" for="taskDescriptionInput">Descrizione</label></td>
 				<td><input id=taskDescriptionInput type="text"
 					placeholder="DESCRIPTION" required
 					th:field="${taskForm.description}" /></td>
 				<td th:if="${#fields.hasErrors('taskForm.description')}"
-					th:errors="${taskForm.description}" th:style="color:red"></td>
+					th:errors="${taskForm.description}" th:style="'color:red'"></td>
 			</tr>
-			
-				
+
+
 		</table>
-	   <button type="submit" align="center" class="button" style="margin-top:2%">Create</button>
+		<button type="submit" align="center" class="button"
+			style="margin-top: 2%">Crea</button>
 	</form>
 </body>
 </html>
