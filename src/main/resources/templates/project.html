@@ -10,7 +10,7 @@
 <body align="center">
 	<div class="nav">
 		<div class="bgroup">
-			<button class="button2" th:onclick="location.href='/home'">Home</button>
+			<button class="navbutton" th:onclick="location.href='/home'">Home</button>
 
 			<a th:if="${project.owner.equals(loggedUser)}"
 				th:href="'/projects/update/' + ${project.id}"><button
