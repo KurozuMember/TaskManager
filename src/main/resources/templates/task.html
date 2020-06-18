@@ -48,11 +48,12 @@
 				<td>
 					<h4 class="h3">Stato:</h4>
 				</td>
+        
 				<td>
-					<h4 th:if="${taskForm.isCompleted()}">completato</h4>
-					<h4 th:unless="${taskForm.isCompleted()}">da fare</h4>
+				<label for="tagsInput" th:text="${tag.name}" th:style="'color :' + ${tag.color}"></label>
 				</td>
 			</tr>
+      
 			<tr>
 				<td><h3 class="h3">Tags:</h3></td>
 				<td>
