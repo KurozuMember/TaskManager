@@ -8,93 +8,93 @@
 </head>
 
 <body align="center">
-<div class="nav">
-<div class="bgroup">
-  <button class="button2" th:onclick="location.href='/projects'">I miei progetti</button>
-	<button class="button2" th:onclick="location.href='/home'">Home</button>
-  </div>
-</div>
-<table class="container2" align="center">
-	<tbody align="left">
-	<tr>
-	<td>
-	<h1 class="h3">Nome:</h2>
-	</td>
-	<td>
-	<h1 th:text="${taskForm.name}"></h1>
-	</td>
-	</tr>
-	<tr>
-	<td>
-	<h1 class="h3">Descrizione:</h2>
-	</td>
-	<td>
-	<h4 th:text="${taskForm.description}" style="color:gray"></h4>
-	</td>
-	</tr>
-	<tr>
-	<td>
-	<h1 class="h3">Assegnato a:</h2>
-	</td>
-	<td>
-	<h4 th:if="${taskForm.assignee != null}" th:text="${taskForm.assignee.firstName}"></h4>
-	<h4 th:unless="${taskForm.assignee != null}">nessuno</h4>
-	</td>
-	</tr>
-    
-	<!-- testo con condizione: se il task ï¿½ completato mostra 'Completed', altrimenti 'To do'.
-		 la sintassi ï¿½ (if) : (then) :? (valore di default, ovvero 'To do') -->
-	<tr>
-	<td>
-	<h4 class="h3">Stato:</h4>
-	</td>
-	<td>
-	<h4 th:if="${taskForm.isCompleted()}">completato</h4>
-    <h4 th:unless="${taskForm.isCompleted()}">da fare</h4>
-    </td>
-    </tr>
-    <tr>
- 				<td><h1 class="h3">Tags:</h2></td>
- 				<td>
- 			<table>
- 			<tbody align="left">
-			<tr th:each="tag : ${taskForm.getTags()}">
+	<div class="nav">
+		<div class="bgroup">
+			<button class="button2" th:onclick="location.href='/projects'">
+				I miei progetti</button>
+			<button class="button2" th:onclick="location.href='/home'">Home</button>
+		</div>
+	</div>
+	<table class="container2" align="center">
+		<tbody align="left">
+			<tr>
+				<td>
+					<h1 class="h3">Nome:</h1>
+				</td>
+				<td>
+					<h3 th:text="${taskForm.name}"></h3>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h3 class="h3">Descrizione:</h3>
+				</td>
+				<td>
+					<h4 th:text="${taskForm.description}" style="color: gray"></h4>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h3 class="h3">Assegnato a:</h3>
+				</td>
+				<td>
+					<h4 th:if="${taskForm.assignee != null}"
+						th:text="${taskForm.assignee.firstName}"></h4>
+					<h4 th:unless="${taskForm.assignee != null}">nessuno</h4>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<h4 class="h3">Stato:</h4>
+				</td>
+        
 				<td>
 				<label for="tagsInput" th:text="${tag.name}" th:style="'color :' + ${tag.color}"></label>
 				</td>
 			</tr>
-			</table>
-			</td>
- 			</tr>
-    </table>
-	<!-- <h4 th:text="'Stato: ' + ${taskForm.isCompleted()} ? 'Completato' : 'Da fare'"></h4> -->
+      
+			<tr>
+				<td><h3 class="h3">Tags:</h3></td>
+				<td>
+					<table>
+						<tbody align="left">
+							<tr th:each="tag : ${taskForm.getTags()}">
+								<td><label for="tagsInput" th:text="${tag.name}"
+									th:style="'color :' + ${tag.color}"></label></td>
+							</tr>
+					</table>
+				</td>
+			</tr>
+	</table>
 
-	<!-- se sei membro del progetto puoi aggiungere un commento al task -->
-	
 	<h1 class="h2">Commenti:</h1>
-	<table class="container2" th:if="${taskForm.comments.size() >0}" align="center">
-	<thead>
-				
-        <tr th:each="comment: ${taskForm.comments}">
-            <td>
-            <p><h1 class="h3" th:text="${comment.publisher.firstName}"></h1></p>
-            <p><h1 class="h3" th:text="${comment.publisher.lastName}"></h1></p>
-            </td>
-            <td><div th:text="${comment.description}"></div></td>
-           
-        </tr>
-       
-    </table>
-	<div th:if="${(!projectForm.members.contains(loggedUser)) && !(projectForm.owner.equals(loggedUser))}" style="margin-top:2%;">
+	<table class="container2" th:if="${taskForm.comments.size() >0}"
+		align="center">
+		<thead>
+
+			<tr th:each="comment: ${taskForm.comments}">
+				<td>
+					<h3 class="h3"
+						th:text="${comment.publisher.firstName} + ' ' + ${comment.publisher.lastName}"></h3>
+				</td>
+				<td><div th:text="${comment.description}"></div></td>
+			</tr>
+	</table>
+
+	<div
+		th:if="${(!projectForm.members.contains(loggedUser)) && !(projectForm.owner.equals(loggedUser))}"
+		style="margin-top: 2%;">
 		<form id="commentForm"
 			th:action="@{'/projects/' + ${projectId} + '/tasks/addComment/' + ${taskId}}"
 			th:object="${commentForm}" method="POST">
-			<input class="container2" name="comment" type="text" th:field="*{description}"
-				placeholder="inserisci un commento" style="border:none;" size="40" maxlength="256" required/>
-			<p><button class="button" type="submit">aggiungi commento</button></p>
-
-    </form>                 
-	
+			<input class="container2" name="comment" type="text"
+				th:field="*{description}" placeholder="inserisci un commento"
+				style="border: none;" size="40" maxlength="256" required />
+			<p>
+				<button class="button" type="submit">aggiungi commento</button>
+			</p>
+		</form>
 	</div>
 </body>
 </html>

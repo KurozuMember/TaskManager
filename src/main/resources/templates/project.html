@@ -3,110 +3,126 @@
 	xmlns:th="https://www.thymeleaf.org">
 <head>
 <title>TaskManager</title>
-<link rel="stylesheet"  href="/css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body align="center">
-<div class="nav">
-<div class="bgroup">
-	<button class="button2" th:onclick="location.href='/home'">Home</button>
-	
-	<a th:if="${project.owner.equals(loggedUser)}" th:href="'/projects/update/' + ${project.id}"><button class="button2">Modifica progetto</button></a>
-	<a th:if="${project.owner.equals(loggedUser)}" th:href="'/projects/delete/' + ${project.id}" onclick="return confirm('Attenzione!! Cancellare il progetto?');"><button class="button2">Elimina progetto</button></a>
-	<a th:if="${project.owner.equals(loggedUser)}" th:href="'/projects/share/' + ${project.id}"><button class="button2">Condividi progetto</button></a>
-	<a th:if="${project.owner.equals(loggedUser)}" th:href="'/projects/' + ${project.Id} + '/addTask'"><button class="button2">Aggiungi Task</button></a>
-  </div>
-</div>
-<table class="container2" align="center">
-<tbody align="left">
-<tr>
-	<td><h1 class="h3">Nome:</h1></td>
-	<td><h1 th:text="${project.name}"></h1></td>
-</tr>
-<tr>
-	<td><h1 class="h3">Descrizione:</h1></td>
-	<td><h4 th:text="${project.description}" style="color: gray"></h4></td>
-</tr>
-<tr>
- 				<td><h1 class="h3">Tags:</h2></td>
- 				<td>
- 			<table>
- 			<tbody align="left">
-			<tr th:each="tag : ${project.getTags()}">
+	<div class="nav">
+		<div class="bgroup">
+			<button class="button2" th:onclick="location.href='/home'">Home</button>
+
+			<a th:if="${project.owner.equals(loggedUser)}"
+				th:href="'/projects/update/' + ${project.id}"><button
+					class="navbutton">Modifica progetto</button></a> <a
+				th:if="${project.owner.equals(loggedUser)}"
+				th:href="'/projects/delete/' + ${project.id}"
+				onclick="return confirm('Attenzione!! Cancellare il progetto?');"><button
+					class="navbutton">Elimina progetto</button></a> <a
+				th:if="${project.owner.equals(loggedUser)}"
+				th:href="'/projects/share/' + ${project.id}"><button
+					class="navbutton">Condividi progetto</button></a> <a
+				th:if="${project.owner.equals(loggedUser)}"
+				th:href="'/projects/' + ${project.Id} + '/addTask'"><button
+					class="navbutton">Aggiungi Task</button></a>
+		</div>
+	</div>
+	<table class="container2" align="center">
+		<tbody align="left">
+			<tr>
+				<td><h1 class="h3">Nome:</h1></td>
+				<td><h3 th:text="${project.name}"></h3></td>
+			</tr>
+			<tr>
+				<td><h1 class="h3">Descrizione:</h1></td>
+				<td><h4 th:text="${project.description}" style="color: gray"></h4></td>
+			</tr>
+
+			<tr>
+				<td><h3 class="h3">Task:</h3></td>
 				<td>
-				<label for="tagsInput" th:text="${tag.name}" th:style="'color :' + ${tag.color}"></label>
+					<table>
+						<tr th:each="task: ${project.tasks}">
+							<td><a
+								th:href="'/projects/' + ${project.id} + '/tasks/' + ${task.id}"
+								th:text="${task.name}" class="h4"></a></td>
+							<td><div th:text="${task.description}"></div></td>
+							<td th:if="${project.owner.equals(loggedUser)}"><a
+								th:href="'/projects/' + ${project.Id} + '/tasks/assign/' + ${task.id}"><button
+										class="button2">Assegna Task</button></a></td>
+							<td th:if="${project.owner.equals(loggedUser)}"><a
+								th:href="'/projects/' + ${project.Id} + '/tasks/update/' + ${task.id}"><button
+										class="button2">Modifica Task</button></a></td>
+							<td th:if="${project.owner.equals(loggedUser)}"><a
+								th:href="'/projects/' + ${project.Id} + '/tasks/delete/' + ${task.id}"
+								onclick="return confirm('Attenzione!! Cancellare il progetto?');"><button
+										class="button2">Cancella Task</button></a></td>
+						</tr>
+					</table>
 				</td>
 			</tr>
-			</table>
-			</td>
- 			</tr>
- 			<tr>
- 				<td><h1 class="h3">Condiviso con:</h2></td>
- 				<td>
- 			<table>
- 			<tbody align="left">
-			<tr th:each="member: ${members}">
+
+			<tr>
+				<td><h3 class="h3">Tags:</h3></td>
 				<td>
-				<label  th:text="${member.firstName}+ ' ' + ${member.lastName}"></label>
+					<table>
+						<tr>
+							<td th:each="tag : ${project.getTags()}"><label
+								for="tagsInput" th:text="${tag.name}"
+								th:style="'color :' + ${tag.color}"></label></td>
+						</tr>
+					</table>
+			</td>
+			</tr>
+
+			<tr>
+				<td><h3 class="h3">Condiviso con:</h3></td>
+				<td>
+					<table>
+						<tbody align="left">
+							<tr>
+								<td th:each="member: ${members}"><label
+									th:text="${member.firstName}+ ' ' + ${member.lastName}"></label>
+								</td>
+							</tr>
+					</table>
 				</td>
 			</tr>
-			</table>
-			</td>
- 			</tr>
- 			
- 			<tr>
- 				<td><h1 class="h3">Task:</h2></td>
- 				<td>
- 			<table>
- 			<tbody align="left">
-			<tr th:each="task: ${project.tasks}">
-				<td><a th:href="'/projects/' + ${project.id} + '/tasks/' + ${task.id}" th:text="${task.name}" class="h5"></a></td>
-            <td><div th:text="${task.description}"></div></td>
-            <td  th:if="${project.owner.equals(loggedUser)}"><a th:href="'/projects/' + ${project.Id} + '/tasks/assign/' + ${task.id}"><button class="button2">Assegna Task</button></a></td>
-            <td  th:if="${project.owner.equals(loggedUser)}"><a th:href="'/projects/' + ${project.Id} + '/tasks/update/' + ${task.id}"><button class="button2">Modifica Task</button></a></td>
-            <td  th:if="${project.owner.equals(loggedUser)}"><a th:href="'/projects/' + ${project.Id} + '/tasks/delete/' + ${task.id}" onclick="return confirm('Attenzione!! Cancellare il progetto?');"><button class="button2">Cancella Task</button></a></td>
-			</tr>
-			</table>
-			</td>
- 			</tr>
-</table>
+	</table>
 	<div th:if="${project.owner.equals(loggedUser)}">
 		<!--posso aggiungere task solo se sono il proprietario-->
 		<h2 class="h2">Aggiungi Tag</h2>
-		<form id = "insertTagForm"
-      th:action="@{'/projects/' + ${project.Id} + '/addTag'}"
-      method="POST">
-      
-      <table  class="container2" align="center" >
-      <tbody align="left">
-			<tr>
-				<td><label class="h3" for="tagNameInput">tag Name</label>
-				<td><input id=tagNameInput type="text" placeholder="NAME"
-					required th:field="${tagForm.name}" />
-				<td th:if="${#fields.hasErrors('tagForm.name')}"
-					th:errors="${tagForm.name}" th:style="color:red"></td>
-			</tr>
-			<tr>
-				<td><label class="h3" for="tagDescriptionInput">Description</label></td>
-				<td><input id=tagDescriptionInput type="text"
-					placeholder="DESCRIPTION" required
-					th:field="${tagForm.description}" /></td>
-				<td th:if="${#fields.hasErrors('tagForm.description')}"
-					th:errors="${tagForm.description}" th:style="color:red"></td>
-			</tr>
-			<tr>
-				<td><label class="h3" for="tagcolorInput">Color</label></td>
-				<td><input id=tagcolorInput type="text"
-					placeholder="COLOR" required
-					th:field="${tagForm.color}" /></td>
-				<td th:if="${#fields.hasErrors('tagForm.color')}"
-					th:errors="${tagForm.color}" th:style="color:red"></td>
-			</tr>
-				
-		</table>
-	   <button type="submit" align="center" class="button" style="margin-top:2%">Aggiungi</button>
-      </form>
+		<form id="insertTagForm"
+			th:action="@{'/projects/' + ${project.Id} + '/addTag'}" method="POST">
+
+			<table class="container2" align="center">
+				<tbody align="left">
+					<tr>
+						<td><label class="h3" for="tagNameInput">Nome</label></td>
+						<td><input id=tagNameInput type="text" placeholder="NAME"
+							required th:field="${tagForm.name}" maxlength="32" /></td>
+						<td th:if="${#fields.hasErrors('tagForm.name')}"
+							th:errors="${tagForm.name}" th:style="color:red"></td>
+					</tr>
+					<tr>
+						<td><label class="h3" for="tagDescriptionInput">Descrizione</label></td>
+						<td><input id=tagDescriptionInput type="text"
+							placeholder="DESCRIPTION" required
+							th:field="${tagForm.description}" maxlength="128" /></td>
+						<td th:if="${#fields.hasErrors('tagForm.description')}"
+							th:errors="${tagForm.description}" th:style="color:red"></td>
+					</tr>
+					<tr>
+						<td><label class="h3" for="tagcolorInput">Colore</label></td>
+						<td><input id=tagcolorInput type="text" placeholder="COLOR"
+							required th:field="${tagForm.color}" maxlength="32"/></td>
+						<td th:if="${#fields.hasErrors('tagForm.color')}"
+							th:errors="${tagForm.color}" th:style="color:red"></td>
+					</tr>
+			</table>
+			<button type="submit" align="center" class="button"
+				style="margin-top: 2%">Aggiungi</button>
+		</form>
 	</div>
 </body>
 </html>
