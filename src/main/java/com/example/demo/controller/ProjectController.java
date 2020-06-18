@@ -140,6 +140,7 @@ public class ProjectController {
 			this.projectService.saveProject(project);
 			return "projectUpdateSuccessful";
 		}
+		model.addAttribute("projectForm", projectForm);
 		return "projectUpdate";
 	}
 

@@ -42,7 +42,6 @@ public class User {
 		this.creationTimestamp = LocalDateTime.now();
 		this.lastUpdateTimestamp = this.creationTimestamp;
 	}
-	
 	@PreUpdate
 	protected void onUpdate() {
 		this.lastUpdateTimestamp = LocalDateTime.now();

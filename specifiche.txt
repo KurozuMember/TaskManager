@@ -1,7 +1,7 @@
 Casi d’uso: User
 Signup
 1.	Un utente vuole registrarsi al sistema. 
-2.	Sceglie l’opzione “Registrazione”. 
+2.	Sceglie l’opzione “Registrati”. 
 3.	L’utente inserisce username, password, nome e cognome.
 4.	Il Sistema verifica che i dati inseriti siano corretti, registra il nuovo utente e restituisce una pagina che informa l’utente che la registrazione è andata a buon fine.
 
@@ -27,7 +27,7 @@ Casi d'uso: Project
 
 Creare un nuovo progetto
 1.	L'utente loggato vuole creare un nuovo progetto.
-2.	Sceglie l'opzione "Crea un nuovo progetto". 
+2.	Sceglie l'opzione "Crea nuovo progetto". 
 3.	L'utente inserisce il nome del progetto e una descrizione.
 4.	Il Sistema verifica che i dati inseriti siano corretti, registra la creazione del nuovo progetto e restituisce all'utente una pagina con i dati inseriti, i tags e i task associati al progetto e la lista dei membri con cui l'utente ha deciso di condividere il progetto.
 

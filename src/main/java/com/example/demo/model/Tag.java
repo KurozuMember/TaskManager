@@ -29,7 +29,7 @@ public class Tag {
 	@ManyToOne
 	Project project;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy="tags")
 	List<Task> tasks;
 
 	

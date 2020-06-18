@@ -10,14 +10,14 @@
 <body align="center">
 	<div class="nav">
 		<div class="bgroup">
-			<button class="button2" th:onclick="location.href='/home'">Home</button>
+			<button class="navbutton" th:onclick="location.href='/home'">Home</button>
 		</div>
 	</div>
 	<div class="container">
 		<h1 class="h2" align="center">Aggiorna Progetto</h1>
 	</div>
 	<form id="updateProjectForm"
-		th:action="@{'/projects/update/' + ${projectForm.Id}}" method="POST">
+		th:action="@{'/projects/update/' + ${projectId}}" method="POST">
 
 		<table class="container2" align="center">
 			<tr>
