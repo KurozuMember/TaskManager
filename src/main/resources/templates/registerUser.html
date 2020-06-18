@@ -9,6 +9,11 @@
 </head>
 
 <body>
+	<div class="nav">
+		<div class="bgroup" align="right">
+			<button class="button2" th:onclick="location.href='/home'">Home</button>
+		</div>
+	</div>
 	<div class="container">
 		<h2 class="h2" align="center">Registrazione</h2>
 	</div>
@@ -34,14 +39,14 @@
 			<tr>
 				<td><label class="h3" for="firstNameInput">Nome</label></td>
 				<td><input class="input" id="firstNameInput" type="text"
-					th:field="${userForm.firstName}" placeholder="FIRST NAME" /></td>
+					th:field="${userForm.firstName}" placeholder="NOME" /></td>
 				<td th:if="${#fields.hasErrors('userForm.firstName')}"
 					th:errors="${userForm.firstName}" th:style="'color:red'"></td>
 			</tr>
 			<tr>
 				<td><label class="h3" for="lastNameInput">Cognome</label></td>
 				<td><input class="input" id="lastNameInput" type="text"
-					th:field="${userForm.lastName}" placeholder="LAST NAME" /></td>
+					th:field="${userForm.lastName}" placeholder="COGNOME" /></td>
 				<td th:if="${#fields.hasErrors('userForm.lastName')}"
 					th:errors="${userForm.lastName}" th:style="'color:red'"></td>
 			</tr>
@@ -50,7 +55,7 @@
 
 		</table>
 		<button type="submit" class="button" align="center"
-			style="margin-top: 2%;">Register</button>
+			style="margin-top: 2%;">Registrati</button>
 	</form>
 </body>
 </html>

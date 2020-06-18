@@ -70,7 +70,6 @@ public class UserController {
 	public String me(Model model) {
 		User loggedUser = sessionData.getLoggedUser();
 		Credentials credentials = sessionData.getLoggedCredentials();
-		System.out.println(credentials.getPassword());
 		model.addAttribute("user", loggedUser);
 		model.addAttribute("credentials", credentials);
 
@@ -104,7 +103,7 @@ public class UserController {
 		model.addAttribute("credentials",credentials);
 		model.addAttribute("user",user);
 		model.addAttribute("projects", projects);
-		return "user";
+		return "userSelected";
 	}
 	
 	

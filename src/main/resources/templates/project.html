@@ -17,7 +17,7 @@
 					class="navbutton">Modifica progetto</button></a> <a
 				th:if="${project.owner.equals(loggedUser)}"
 				th:href="'/projects/delete/' + ${project.id}"
-				onclick="return confirm('Attenzione!! Cancellare il progetto?');"><button
+				onclick="return confirm('ATTENZIONE! Cancellare il progetto?');"><button
 					class="navbutton">Elimina progetto</button></a> <a
 				th:if="${project.owner.equals(loggedUser)}"
 				th:href="'/projects/share/' + ${project.id}"><button
@@ -55,7 +55,7 @@
 										class="button2">Modifica Task</button></a></td>
 							<td th:if="${project.owner.equals(loggedUser)}"><a
 								th:href="'/projects/' + ${project.Id} + '/tasks/delete/' + ${task.id}"
-								onclick="return confirm('Attenzione!! Cancellare il progetto?');"><button
+								onclick="return confirm('ATTENZIONE! Cancellare il task?');"><button
 										class="button2">Cancella Task</button></a></td>
 						</tr>
 					</table>
@@ -72,7 +72,7 @@
 								th:style="'color :' + ${tag.color}"></label></td>
 						</tr>
 					</table>
-			</td>
+				</td>
 			</tr>
 
 			<tr>
@@ -99,25 +99,31 @@
 				<tbody align="left">
 					<tr>
 						<td><label class="h3" for="tagNameInput">Nome</label></td>
-						<td><input id=tagNameInput type="text" placeholder="NAME"
-							required th:field="${tagForm.name}" maxlength="32" /></td>
+						<td><input id=tagNameInput type="text" placeholder="NOME"
+							required th:field="${tagForm.name}" maxlength="32"/></td>
 						<td th:if="${#fields.hasErrors('tagForm.name')}"
-							th:errors="${tagForm.name}" th:style="color:red"></td>
+							th:errors="${tagForm.name}" th:style="'color:red'"></td>
 					</tr>
 					<tr>
 						<td><label class="h3" for="tagDescriptionInput">Descrizione</label></td>
 						<td><input id=tagDescriptionInput type="text"
-							placeholder="DESCRIPTION" required
+							placeholder="DESCRIZIONE" required
 							th:field="${tagForm.description}" maxlength="128" /></td>
 						<td th:if="${#fields.hasErrors('tagForm.description')}"
-							th:errors="${tagForm.description}" th:style="color:red"></td>
+							th:errors="${tagForm.description}" th:style="'color:red'"></td>
 					</tr>
 					<tr>
 						<td><label class="h3" for="tagcolorInput">Colore</label></td>
-						<td><input id=tagcolorInput type="text" placeholder="COLOR"
-							required th:field="${tagForm.color}" maxlength="32"/></td>
+						<td><select id=tagcolorInput required
+							th:field="${tagForm.color}">
+								<option value="red">rosso</option>
+								<option value="blue">blu</option>
+								<option value="orange">arancione</option>
+								<option value="violet">viola</option>
+								<option value="grey">grigio</option>
+						</select></td>
 						<td th:if="${#fields.hasErrors('tagForm.color')}"
-							th:errors="${tagForm.color}" th:style="color:red"></td>
+							th:errors="${tagForm.color}" th:style="'color:red'"></td>
 					</tr>
 			</table>
 			<button type="submit" align="center" class="button"

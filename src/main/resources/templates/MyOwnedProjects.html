@@ -3,15 +3,20 @@
 	xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
- <link rel="stylesheet"  href="/css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TaskManager</title>
 </head>
 <body align="center">
-<div class="container">
-	<h1 class="h2" align="center">My Projects</h1>
+	<div class="nav">
+		<div class="bgroup" align="right">
+			<button class="button2" th:onclick="location.href='/home'">Home</button>
+		</div>
 	</div>
-	<div  align="center">
+	<div class="container">
+		<h1 class="h2" align="center">I Miei Progetti</h1>
+	</div>
+	<div align="center">
 		<table align="center" class="container2">
 			<thead>
 				<tr>
